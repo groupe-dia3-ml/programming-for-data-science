@@ -18,19 +18,7 @@ Repository for the **Programming for Data Science** course taught by **Hugo Alat
 ## 📁 Repository Architecture
 
 ```text
-├── CM/                              # Lecture slides & theoretical course materials
-├── csv lab1/                        # Lab 1: Formats & data exploration (CSV, JSON, ARFF, TSV)
-├── csv lab2/                        # Lab 2: Relational queries & SQL data joins
-├── LAB3/                            # Lab 3: Python data structures & manipulation
-├── LAB4/                            # Lab 4: Data cleaning, imputation & preprocessing
-├── LAB5/                            # Lab 5: Advanced data structures & resilient processing
-├── LAB6/                            # Lab 6: API querying, web requests & caching
-├── TP7/                             # Lab 7: Temporal data analysis & Prophet forecasting
-├── TP8/                             # Lab 8: Spatial information, GeoPandas & OPTICS clustering
-├── TP9/                             # Lab 9: Pattern Mining (Itemsets & Association Rules)
-├── TP10/                            # Lab 10: Sequential Pattern Mining (SPM with PrefixSpan)
-│
-├── projet/                          # 🚀 FINAL PROJECT WORKSPACE
+├── projet/                          # 🚀 FINAL PROJECT DELIVERABLE WORKSPACE
 │   ├── Final_project.pdf            # Official project requirements & instructions
 │   ├── README.md                    # Detailed guide to project requirements & scoring
 │   ├── Laurent_notebook.ipynb       # Official deliverable notebook (functions + main block)
