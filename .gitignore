@@ -221,3 +221,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Virtual environments
+.venv-1/
+
+# Coursework & Labs (kept locally only - excluded from Git)
+CM/
+csv lab1/
+csv lab2/
+LAB3/
+LAB4/
+LAB5/
+LAB6/
+TP7/
+TP8/
+TP9/
+TP10/
