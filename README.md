@@ -82,13 +82,13 @@ programming-for-data-science/
 │   ├── data/                               # LOCAL ONLY datasets (see doc/DATA_SETUP.md)
 │   │   ├── .gitkeep
 │   │   └── README.md
-│   ├── notebooks/                          # Working notebooks with structured TODOs
-│   │   ├── 01_eda_and_cleaning_todo.ipynb
-│   │   ├── 02_grouping_and_apriori_todo.ipynb
-│   │   ├── 03_temporal_forecasting_todo.ipynb
-│   │   ├── 04_spatial_clustering_todo.ipynb
-│   │   └── 05_tourism_bonus_todo.ipynb
-│   ├── src/                                # Shared modular Python functions (TODO skeletons)
+│   ├── notebooks/                          # Completed and executed working notebooks
+│   │   ├── 01_eda_and_cleaning.ipynb
+│   │   ├── 02_grouping_and_apriori.ipynb
+│   │   ├── 03_temporal_forecasting.ipynb
+│   │   ├── 04_spatial_clustering.ipynb
+│   │   └── 05_tourism_bonus.ipynb
+│   ├── src/                                # Shared modular Python functions
 │   │   ├── __init__.py
 │   │   ├── data_loader.py
 │   │   ├── indicators.py
@@ -98,7 +98,7 @@ programming-for-data-science/
 │
 └── rendu/                                  # Final DVLC submission deliverables
     ├── README.md                           # Naming conventions & pre-submission checklist
-    └── Laurent_notebook.ipynb              # Master deliverable notebook skeleton (functions + __main__)
+    └── Laurent_notebook.ipynb              # 100% self-contained master deliverable notebook (all functions + __main__, executed)
 ```
 
 ---
@@ -108,4 +108,4 @@ programming-for-data-science/
 1. **Set up your Python environment:** Follow [`REQUIREMENTS.md`](REQUIREMENTS.md) (`python -m venv .venv` then `pip install -r requirements.txt`).
 2. **Download the two datasets locally:** Follow [`doc/DATA_SETUP.md`](doc/DATA_SETUP.md) to populate `projet/data/`.
 3. **Check your assigned tasks & specs:** Read [`doc/TEAM_WORKFLOW.md`](doc/TEAM_WORKFLOW.md) and [`doc/INDICATORS_SPEC.md`](doc/INDICATORS_SPEC.md).
-4. **Work in your assigned `projet/notebooks/*_todo.ipynb` and `projet/src/*.py`**, then consolidate into [`rendu/Laurent_notebook.ipynb`](rendu/Laurent_notebook.ipynb).
+4. **Work in your assigned `projet/notebooks/*.ipynb` and `projet/src/*.py`**, then consolidate into [`rendu/Laurent_notebook.ipynb`](rendu/Laurent_notebook.ipynb).
