@@ -1,85 +1,111 @@
-# Programming for Data Science — ESILV (Master Data & IA)
+# Programming for Data Science — Global Shark Attacks & International Tourism Analysis
 
-Repository for the **Programming for Data Science** course taught by **Hugo Alatrista-Salas** at **ESILV (École Supérieure d'Ingénieurs Léonard de Vinci)**.
-
-[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Repository](https://img.shields.io/badge/GitHub-groupe--dia3--ml-green.svg)](https://github.com/groupe-dia3-ml/programming-for-data-science)
-[![Framework](https://img.shields.io/badge/Dashboard-Plotly%20Dash-orange.svg)](https://dash.plotly.com/)
-
----
-
-## 👥 Team Members
-
-* **Maxime LAURENT** (*Team Leader*) — [maxime.laurent@edu.devinci.fr](mailto:maxime.laurent@edu.devinci.fr)
-* *(Team members to be added)*
+<p align="center">
+  <img src="https://img.shields.io/badge/ESILV-A4%20DIA3%20(2026--2027)-0F172A?style=flat-square" alt="ESILV A4 DIA3">
+  <img src="https://img.shields.io/badge/Python-3.10+-1E293B?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Dashboard-Plotly%20Dash-0F766E?style=flat-square&logo=plotly&logoColor=white" alt="Plotly Dash">
+  <img src="https://img.shields.io/badge/Primary%20Data-Global%20Shark%20Attack%20(GSAF)-0284C7?style=flat-square" alt="GSAF Dataset">
+  <img src="https://img.shields.io/badge/Bonus%20Data-World%20Bank%20ST.INT.ARVL-334155?style=flat-square" alt="World Bank Tourism">
+</p>
 
 ---
 
-## 📁 Repository Architecture
+## Executive Overview
+
+Repository for the **Programming for Data Science** final project taught by **Hugo Alatrista-Salas** at **ESILV (Ecole Superieure d'Ingenieurs Leonard de Vinci — A4 DIA3)**.
+
+The objective is to apply the complete **Knowledge Discovery in Databases (KDD)** pipeline to a real **multidimensional dataset** combining **Temporal**, **Spatial**, and **Analytical** dimensions, enriched with an external macroeconomic dataset (`+1 bonus point`), and present all extracted indicators inside an interactive **Python Dash** visualization prototype.
+
+### Selected Datasets (Local Only — Not Tracked by Git)
+
+| Role | Dataset Title | Official Source | Shared Dimensions |
+| --- | --- | --- | --- |
+| **Primary Dataset** | Global Shark Attack (GSAF) | [Kaggle (`mexwell/global-shark-attack`)](https://www.kaggle.com/datasets/mexwell/global-shark-attack) | Temporal (`Date`, `Year`, `Time`), Spatial (`Country`, `Area`, `Location` + geocoded `lat/lon`), Analytical (`Type`, `Activity`, `Species`, `Fatal`) |
+| **External Bonus (+1 pt)** | International tourism, number of arrivals (`ST.INT.ARVL`) | [World Bank Indicator `ST.INT.ARVL`](https://data.worldbank.org/indicator/ST.INT.ARVL) | Country-year arrivals (266 countries/regions, 1995-2020) joined on `(Country, Year)` |
+
+> [!IMPORTANT]
+> Datasets are stored **locally** by each team member inside `projet/data/` and excluded via `.gitignore`. See [`doc/DATA_SETUP.md`](doc/DATA_SETUP.md) for step-by-step installation instructions.
+
+---
+
+## Team & Ownership
+
+| Member | GitHub | Primary Responsibilities |
+| --- | --- | --- |
+| **Maxime Laurent** (Team Leader) | [@maximelrnt](https://github.com/maximelrnt) | Deliverable coordination (`Laurent_*`), EDA, data cleaning, country normalization, and final notebook assembly |
+| **Louis Le Forestier** | [@louislefo](https://github.com/louislefo) | Repository architecture, Query 4 (Spatial Clustering with `GeoPandas` / `OPTICS` / `K-Means`), and Dash dashboard |
+| **Baptiste Noailhac** | [@BaptisteNoai](https://github.com/BaptisteNoai) | Query 1 (Grouping & fatality rates) and Query 2 (Frequent Pattern Mining with `mlxtend` / `Apriori`) |
+| **Romain Thepaut** | [@RomThpt](https://github.com/RomThpt) | Query 3 (Temporal seasonality & `Prophet` forecasting) and External Bonus Dataset (World Bank Tourism risk rate) |
+
+---
+
+## Project Pipeline
+
+```mermaid
+flowchart LR
+    D1["Global Shark Attack<br/>(Kaggle mexwell)"] --> P["EDA & Cleaning<br/>(01_eda_and_cleaning)"]
+    D2["World Bank Tourism<br/>(ST.INT.ARVL 1995-2020)"] --> P
+    G["Geocoded Coastal Zones<br/>(locations_geocoded.csv)"] --> P
+    P --> Q1["Query 1: Grouping<br/>& Fatality Rates"]
+    P --> Q2["Query 2: Apriori<br/>Association Rules"]
+    P --> Q3["Query 3: Seasonality<br/>& Prophet Forecast"]
+    P --> Q4["Query 4: GeoPandas<br/>OPTICS / K-Means"]
+    P --> Q5["Bonus: Attacks per<br/>1M Tourists"]
+    Q1 --> DASH["Plotly Dash Dashboard<br/>& HTML Export"]
+    Q2 --> DASH
+    Q3 --> DASH
+    Q4 --> DASH
+    Q5 --> DASH
+    DASH --> RENDU["rendu/<br/>Laurent_notebook.ipynb<br/>Laurent_dashboard.html<br/>Laurent_slides.pdf"]
+```
+
+---
+
+## Repository Architecture
 
 ```text
-├── projet/                          # 🚀 FINAL PROJECT DELIVERABLE WORKSPACE
-│   ├── Final_project.pdf            # Official project requirements & instructions
-│   ├── README.md                    # Detailed guide to project requirements & scoring
-│   ├── Laurent_notebook.ipynb       # Official deliverable notebook (functions + main block)
-│   ├── data/                        # Datasets (Temporal, Spatial, Analytical)
-│   ├── src/                         # Modular Python functions
-│   │   ├── __init__.py
-│   │   ├── data_loader.py           # Data loading & statistical profiling
-│   │   ├── indicators.py            # The 4 analytical queries / indicators
-│   │   └── dashboard.py             # Interactive Plotly Dash web application
-│   └── slides/                      # Final 5-minute presentation slides
+programming-for-data-science/
+├── .gitignore                              # Excludes local datasets, .venv, and caches
+├── README.md                               # Main repository presentation & entry points
+├── REQUIREMENTS.md                         # Environment setup & troubleshooting guide
+├── requirements.txt                        # Exact pip dependencies
 │
-├── gemini.md                        # 🤖 AI Assistant & Team Project Bible / Roadmap
-├── requirements.txt                 # Project Python dependencies
-└── .gitignore                       # Clean Git exclusion rules
+├── doc/                                    # Project documentation
+│   ├── PROJECT_OVERVIEW.md                 # Objectives, rubric (20 + 1 pts), anti-penalty checklist
+│   ├── DATA_SETUP.md                       # Local dataset download & placement instructions
+│   ├── INDICATORS_SPEC.md                  # Technical spec of the 4 queries + Tourism Bonus + Dash
+│   └── TEAM_WORKFLOW.md                    # Role split, Git branching, and code conventions
+│
+├── projet/                                 # Development workspace
+│   ├── Final_project.pdf                   # Official ESILV project instructions
+│   ├── README.md                           # Workspace guide
+│   ├── data/                               # LOCAL ONLY datasets (see doc/DATA_SETUP.md)
+│   │   ├── .gitkeep
+│   │   └── README.md
+│   ├── notebooks/                          # Working notebooks with structured TODOs
+│   │   ├── 01_eda_and_cleaning_todo.ipynb
+│   │   ├── 02_grouping_and_apriori_todo.ipynb
+│   │   ├── 03_temporal_forecasting_todo.ipynb
+│   │   ├── 04_spatial_clustering_todo.ipynb
+│   │   └── 05_tourism_bonus_todo.ipynb
+│   ├── src/                                # Shared modular Python functions (TODO skeletons)
+│   │   ├── __init__.py
+│   │   ├── data_loader.py
+│   │   ├── indicators.py
+│   │   └── dashboard.py
+│   └── slides/
+│       └── README.md                       # 5-minute oral defense structure
+│
+└── rendu/                                  # Final DVLC submission deliverables
+    ├── README.md                           # Naming conventions & pre-submission checklist
+    └── Laurent_notebook.ipynb              # Master deliverable notebook skeleton (functions + __main__)
 ```
 
 ---
 
-## 🚀 Quickstart & Setup
+## Quickstart
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/groupe-dia3-ml/programming-for-data-science.git
-cd programming-for-data-science
-```
-
-### 2. Set up virtual environment
-```bash
-python -m venv .venv
-# On Windows (PowerShell):
-.\.venv\Scripts\Activate.ps1
-# On Linux/macOS:
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Run the interactive Dashboard prototype
-```bash
-cd projet
-python src/dashboard.py
-```
-Open your browser at `http://127.0.0.1:8050/` to explore the dashboard.
-
----
-
-## 🎯 Final Project Overview
-
-The objective is to implement the full **Knowledge Discovery in Databases (KDD)** pipeline on a real **multidimensional dataset** (combining **Temporal**, **Spatial**, and **Analytical** dimensions).
-
-The deliverable includes:
-1. **Interactive Notebook (`Laurent_notebook.ipynb`)**: Clean modular functions with documented inputs/outputs and human-readable Markdown explanations.
-2. **Four Analytical Queries**:
-   - Aggregation / Grouping query [1 pt]
-   - Pattern Mining / ML query [2 pts]
-   - Temporal forecasting (Prophet) [2 pts]
-   - Spatial clustering (OPTICS / K-Means / GeoPandas) [2 pts]
-3. **Interactive Dashboard (`dashboard.py`)**: Built with Plotly Dash organizing the 4 indicators.
-4. **Final Presentation (`Laurent_slides.pdf`)**: 5-minute slide deck and live demonstration.
-
-See [`gemini.md`](gemini.md) and [`projet/README.md`](projet/README.md) for full instructions, grading rubrics, and development workflows.
+1. **Set up your Python environment:** Follow [`REQUIREMENTS.md`](REQUIREMENTS.md) (`python -m venv .venv` then `pip install -r requirements.txt`).
+2. **Download the two datasets locally:** Follow [`doc/DATA_SETUP.md`](doc/DATA_SETUP.md) to populate `projet/data/`.
+3. **Check your assigned tasks & specs:** Read [`doc/TEAM_WORKFLOW.md`](doc/TEAM_WORKFLOW.md) and [`doc/INDICATORS_SPEC.md`](doc/INDICATORS_SPEC.md).
+4. **Work in your assigned `projet/notebooks/*_todo.ipynb` and `projet/src/*.py`**, then consolidate into [`rendu/Laurent_notebook.ipynb`](rendu/Laurent_notebook.ipynb).

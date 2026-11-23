@@ -1,100 +1,98 @@
-# -*- coding: utf-8 -*-
-"""
-Module for loading, inspecting, and preprocessing multidimensional datasets.
-Strictly adheres to ESILV Programming for Data Science project conventions.
-"""
+# Module for loading, exploring, cleaning, and merging the project datasets
+# Primary dataset: Global Shark Attack (GSAF - Kaggle mexwell)
+# Bonus dataset: International tourism, number of arrivals (World Bank ST.INT.ARVL)
 
 import os
 import pandas as pd
 import numpy as np
-from typing import Dict, Any, Tuple
 
 
-def load_dataset(file_path: str) -> pd.DataFrame:
-    """
-    Function for reading and loading a CSV multidimensional dataset.
-    
-    Input:
-        file_path (str): Relative or absolute path to the dataset file.
-    Output:
-        pd.DataFrame: Cleaned Pandas DataFrame.
-    """
-    # Check if the file exists before attempting to read it
+# Mapping dictionary to align GSAF country names with World Bank official names
+COUNTRY_MAPPING = {
+    "USA": "United States",
+    "UNITED STATES": "United States",
+    "ENGLAND": "United Kingdom",
+    "SCOTLAND": "United Kingdom",
+    "WALES": "United Kingdom",
+    "UNITED KINGDOM": "United Kingdom",
+    "BAHAMAS": "Bahamas, The",
+    "EGYPT": "Egypt, Arab Rep.",
+    "RUSSIA": "Russian Federation",
+    "SOUTH KOREA": "Korea, Rep.",
+    "IRAN": "Iran, Islamic Rep.",
+    "VENEZUELA": "Venezuela, RB",
+    "HONG KONG": "Hong Kong SAR, China",
+    "TURKEY": "Turkiye",
+    "VIETNAM": "Viet Nam",
+    "ST. MARTIN": "St. Martin (French part)",
+}
+
+
+# Function for loading the primary Global Shark Attack dataset (CSV or Excel)
+# Input: file_path (str) - path to attacks.csv or GSAF5.xls inside projet/data/
+# Output: raw pandas DataFrame of shark attacks
+def load_shark_data(file_path):
     if not os.path.exists(file_path):
-        raise FileNotFoundError(f"Dataset file not found at: {file_path}")
-    
-    # Read CSV file using pandas
-    df = pd.read_csv(file_path)
-    
-    # Clean whitespace in column names to avoid indexing errors
-    df.columns = df.columns.str.strip()
-    
-    return df
+        raise FileNotFoundError(
+            f"Shark dataset not found at '{file_path}'. See doc/DATA_SETUP.md."
+        )
+
+    # TODO (Maxime): handle both .csv (with encoding='latin-1') and .xls/.xlsx files
+    # Hint: check file_path.lower().endswith(('.xls', '.xlsx')) and use pd.read_excel()
+    # Otherwise use pd.read_csv(file_path, encoding='latin-1')
+    # Strip extra spaces from column names with df.columns = df.columns.str.strip()
+    raise NotImplementedError("TODO: implement load_shark_data()")
 
 
-def summarize_dataset(df: pd.DataFrame) -> Dict[str, Any]:
-    """
-    Function to profile and summarize the multidimensional dataset.
-    Generates required metrics: shape, data types, missing values, and value ranges.
-    
-    Input:
-        df (pd.DataFrame): Input DataFrame to summarize.
-    Output:
-        dict: Dictionary containing summary statistics and metadata.
-    """
-    # Compute basic dimensions (rows, columns)
-    n_rows, n_cols = df.shape
-    
-    # Inspect data types of each column
-    dtypes_dict = df.dtypes.astype(str).to_dict()
-    
-    # Compute count of missing values per column
-    missing_dict = df.isnull().sum().to_dict()
-    
-    # Calculate summary statistics (ranges: min, max, quantiles) for numeric columns
-    numeric_df = df.select_dtypes(include=[np.number])
-    ranges_dict = {}
-    if not numeric_df.empty:
-        for col in numeric_df.columns:
-            ranges_dict[col] = {
-                "min": float(numeric_df[col].min()),
-                "max": float(numeric_df[col].max()),
-                "mean": float(numeric_df[col].mean()),
-                "std": float(numeric_df[col].std())
-            }
-            
-    summary = {
-        "num_rows": n_rows,
-        "num_cols": n_cols,
-        "columns": list(df.columns),
-        "data_types": dtypes_dict,
-        "missing_values": missing_dict,
-        "numeric_ranges": ranges_dict
-    }
-    
-    return summary
+# Function for loading the external World Bank tourism dataset (ST.INT.ARVL)
+# Input: file_path (str) - path to tourism_arrivals.csv inside projet/data/
+# Output: raw pandas DataFrame of international tourist arrivals
+def load_tourism_data(file_path):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(
+            f"Tourism dataset not found at '{file_path}'. See doc/DATA_SETUP.md."
+        )
+
+    # TODO (Maxime): read World Bank CSV using pd.read_csv(file_path, skiprows=4)
+    # Remove any unnamed trailing empty column if present
+    raise NotImplementedError("TODO: implement load_tourism_data()")
 
 
-def print_summary_report(summary: Dict[str, Any]) -> None:
-    """
-    Function for displaying a clean human-readable summary report in the console or notebook.
-    
-    Input:
-        summary (dict): Output from summarize_dataset.
-    Output:
-        None (prints report to stdout).
-    """
-    print("=" * 70)
-    print("MULTIDIMENSIONAL DATASET SUMMARY REPORT")
-    print("=" * 70)
-    print(f"Total Rows (Records):    {summary['num_rows']:,}")
-    print(f"Total Columns (Fields):  {summary['num_cols']}")
-    print("-" * 70)
-    print(f"{'Column Name':<30} | {'Dtype':<12} | {'Missing Values':<15}")
-    print("-" * 70)
-    for col in summary['columns']:
-        dtype = summary['data_types'].get(col, '')
-        missing = summary['missing_values'].get(col, 0)
-        pct = (missing / summary['num_rows']) * 100 if summary['num_rows'] > 0 else 0
-        print(f"{col:<30} | {dtype:<12} | {missing:<7} ({pct:.1f}%)")
-    print("=" * 70)
+# Function for profiling and summarizing any dataset (mandatory EDA step)
+# Input: df (pd.DataFrame), dataset_name (str)
+# Output: dictionary with shape, dtypes, missing values, and value ranges
+def summarize_dataset(df, dataset_name="Dataset"):
+    # TODO (Maxime): compute and print:
+    # 1. Number of rows and columns (df.shape)
+    # 2. Column names and data types (df.dtypes)
+    # 3. Missing values count and percentage per column (df.isna().sum())
+    # 4. Min and max range for numeric columns + unique count for categorical columns
+    raise NotImplementedError("TODO: implement summarize_dataset()")
+
+
+# Function for cleaning and feature engineering the Global Shark Attack dataset
+# Input: raw shark attacks DataFrame
+# Output: cleaned DataFrame with Year, Month, Season, Country_clean, Activity_group, Time_of_day, Fatal_clean
+def clean_shark_data(df):
+    # TODO (Maxime):
+    # 1. Drop empty/metadata columns (href, href formula, pdf, Case Number.1, original order, Unnamed:*)
+    #    and document why each column was dropped in Markdown
+    # 2. Convert Year to numeric and filter reliable modern records (Year >= 1960)
+    # 3. Extract Month (1-12) from Date and derive hemisphere-aware Season
+    # 4. Standardize Country into Country_clean using COUNTRY_MAPPING + title case
+    # 5. Group raw Activity text into clean categories (Surfing, Swimming, Diving/Snorkeling, Fishing, Wading, Other)
+    # 6. Standardize Fatal (Y/N) into Fatal_clean ('Y', 'N', 'Unknown') and bucket Time into Time_of_day
+    raise NotImplementedError("TODO: implement clean_shark_data()")
+
+
+# Function for reshaping tourism data and merging it with annual shark attack counts
+# Input: cleaned shark_df (pd.DataFrame), raw tourism_df (pd.DataFrame)
+# Output: merged DataFrame on (Country_clean, Year) covering 1995-2020 with annual attacks and arrivals
+def clean_and_merge_tourism(shark_df, tourism_df):
+    # TODO (Maxime / Romain):
+    # 1. Reshape tourism_df from wide year columns to long format using pd.melt()
+    #    -> columns: Country_clean, Country Code, Year, Arrivals
+    # 2. Convert Year to int and drop missing Arrivals rows
+    # 3. Aggregate shark_df by (Country_clean, Year) to get annual_attacks and fatal_attacks
+    # 4. Inner join both tables on ['Country_clean', 'Year']
+    raise NotImplementedError("TODO: implement clean_and_merge_tourism()")
