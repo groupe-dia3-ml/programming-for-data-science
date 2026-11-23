@@ -4,10 +4,10 @@
 
 | Member | GitHub | Assigned Notebooks & Modules | Branch Name |
 | --- | --- | --- | --- |
-| **Maxime Laurent** (Team Leader) | `@maximelrnt` | `01_eda_and_cleaning_todo.ipynb`, `src/data_loader.py`, final assembly of `rendu/Laurent_notebook.ipynb` & `rendu/Laurent_slides.pdf` | `feature/eda-cleaning` |
+| **Louis Le Forestier** | `@louislefo` | `01_eda_and_cleaning_todo.ipynb`, `src/data_loader.py` | `feature/eda-cleaning` |
 | **Baptiste Noailhac** | `@BaptisteNoai` | `02_grouping_and_apriori_todo.ipynb`, Query 1 & Query 2 in `src/indicators.py` | `feature/grouping-apriori` |
 | **Romain Thepaut** | `@RomThpt` | `03_temporal_forecasting_todo.ipynb`, `05_tourism_bonus_todo.ipynb`, Query 3 & Bonus in `src/indicators.py` | `feature/temporal-tourism` |
-| **Louis Le Forestier** | `@louislefo` | `04_spatial_clustering_todo.ipynb`, Query 4 in `src/indicators.py`, `src/dashboard.py`, `rendu/Laurent_dashboard.html` | `feature/spatial-dashboard` |
+| **Maxime Laurent** (Team Leader) | `@maximelrnt` | `04_spatial_clustering_todo.ipynb`, Query 4 in `src/indicators.py`, `src/dashboard.py`, final assembly of `rendu/Laurent_notebook.ipynb` & `rendu/Laurent_slides.pdf` | `feature/spatial-dashboard` |
 
 ---
 

@@ -5,6 +5,7 @@ This document defines every data cleaning step, analytical indicator, visualizat
 ---
 
 ## 1. EDA & Preprocessing (`01_eda_and_cleaning_todo.ipynb` / `src/data_loader.py`)
+- **Owner:** Louis Le Forestier (`01_eda_and_cleaning_todo.ipynb`)
 
 ### Mandatory EDA Outputs `[2 pts]`
 For both datasets (`attacks.csv` and `tourism_arrivals.csv`), `summarize_dataset()` must output:
@@ -66,7 +67,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Hemisphere seasonality comparison plot + Prophet interactive forecast plot with uncertainty intervals and trend changepoints.
 
 ### Query 4 — Spatial Analysis & Hotspot Clustering (`GeoPandas` + `OPTICS` / `K-Means`) `[2 pts]`
-- **Owner:** Louis Le Forestier (`04_spatial_clustering_todo.ipynb`)
+- **Owner:** Maxime Laurent (`04_spatial_clustering_todo.ipynb`)
 - **Course reference:** Lab 8 (`geopandas`, `shapely.geometry.Point`, `sjoin`, `sklearn.cluster.OPTICS`, `KMeans`).
 - **Calculations:**
   - Geocode unique `(Area, Country)` coastal zones into `projet/data/locations_geocoded.csv`.
@@ -92,7 +93,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 
 ## 4. Interactive Dash Dashboard `[2 pts]`
 
-- **Owner:** Louis Le Forestier (`projet/src/dashboard.py`)
+- **Owner:** Maxime Laurent (`projet/src/dashboard.py`)
 - **Mandatory Header Elements:**
   - Project title and both dataset titles (`Global Shark Attack (GSAF)` + `World Bank International Tourism (ST.INT.ARVL)`).
   - Full names of all 4 team members (`Maxime Laurent`, `Louis Le Forestier`, `Baptiste Noailhac`, `Romain Thepaut`).

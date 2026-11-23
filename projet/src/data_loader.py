@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Module for loading, exploring, cleaning, and merging the project datasets
+# Owner: Louis Le Forestier
 # Primary dataset: Global Shark Attack (GSAF - Kaggle mexwell)
 # Bonus dataset: International tourism, number of arrivals (World Bank ST.INT.ARVL)
 

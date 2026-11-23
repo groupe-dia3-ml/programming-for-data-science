@@ -25,10 +25,10 @@ The objective is to implement the end-to-end **Knowledge Discovery in Databases 
 
 | Member | Role | GitHub | Contact | Primary Domain |
 | :--- | :--- | :--- | :--- | :--- |
-| **Maxime LAURENT** | Team Leader | [@maximelrnt](https://github.com/maximelrnt) | `maxime.laurent@edu.devinci.fr` | EDA, Data Ingestion, Cleaning Contract, Master Rendu Notebook & Slides |
+| **Louis LE FORESTIER** | Core Contributor | [@louislefo](https://github.com/louislefo) | `louis.le_forestier@edu.devinci.fr` | EDA, Data Ingestion, Cleaning Contract & Feature Profiling |
 | **Baptiste NOAILHAC** | Core Contributor | [@BaptisteNoai](https://github.com/BaptisteNoai) | `baptiste.noailhac@edu.devinci.fr` | Query 1 (Grouping & Fatality Rates) & Query 2 (Apriori Pattern Mining) |
 | **Romain THEPAUT** | Core Contributor | [@RomThpt](https://github.com/RomThpt) | `romain.thepaut@edu.devinci.fr` | Query 3 (Temporal & Prophet Forecasting) & External Tourism Bonus Query |
-| **Louis LE FORESTIER** | Core Contributor | [@louislefo](https://github.com/louislefo) | `louis.le_forestier@edu.devinci.fr` | Query 4 (Spatial Clustering GeoPandas/OPTICS) & Interactive Dash Dashboard |
+| **Maxime LAURENT** | Team Leader | [@maximelrnt](https://github.com/maximelrnt) | `maxime.laurent@edu.devinci.fr` | Query 4 (Spatial Clustering GeoPandas/OPTICS), Dash Prototype, Master Rendu Notebook & Slides |
 
 ---
 
@@ -52,25 +52,24 @@ The objective is to implement the end-to-end **Knowledge Discovery in Databases 
 To ensure seamless parallel collaboration without Git merge conflicts, the project is structured into **four independent modules**, with each member owning their designated branch, notebook, and functions:
 
 ```text
-                                  ┌── Part 1 (Maxime): EDA & Cleaning Contract (src/data_loader.py)
+                                  ┌── Part 1 (Louis): EDA & Cleaning Contract (src/data_loader.py)
                                   │
 [Raw Datasets in projet/data/] ───┼── Part 2 (Baptiste): Grouping & Apriori Mining (Q1 & Q2)
                                   │
                                   ├── Part 3 (Romain): Prophet Seasonality & Tourism Bonus (Q3 & Bonus)
                                   │
-                                  └── Part 4 (Louis): Spatial Clustering & Dash Prototype (Q4 & Dashboard)
+                                  └── Part 4 (Maxime): Spatial Clustering & Dash Prototype (Q4 & Dashboard)
                                   │
                                   ▼
              [Final Consolidation: rendu/Laurent_notebook.ipynb & slides]
 ```
 
-### 👤 Part 1: Data Exploration, Cleaning Contract & Master Assembly
-* **Assigned to:** **Maxime LAURENT** (`@maximelrnt`)
+### 👤 Part 1: Data Exploration, Cleaning Contract & Ingestion
+* **Assigned to:** **Louis LE FORESTIER** (`@louislefo`)
 * **Branch:** `feature/eda-cleaning`
 * **Assigned Files:**
   - `projet/notebooks/01_eda_and_cleaning_todo.ipynb`
   - `projet/src/data_loader.py`
-  - Coordination of `rendu/Laurent_notebook.ipynb` and `rendu/Laurent_slides.pdf`
 * **Key Missions & Deliverables:**
   1. **Task 1 — EDA Profiling [2 pts]:** Implement `summarize_dataset()` outputting row/column counts, dtypes, missing values counts/percentages, and numeric ranges.
   2. **Data Cleaning & Standardization:**
@@ -80,7 +79,6 @@ To ensure seamless parallel collaboration without Git merge conflicts, the proje
      - Map free-text `Activity` into 6 clean categories (`Surfing`, `Swimming`, `Diving`, `Fishing`, `Wading`, `Other`).
      - Normalize country names (`COUNTRY_MAPPING`) to match World Bank standards.
   3. **Panel Merge:** Reshape World Bank tourism data (`pd.melt`) and inner join on `(Country_clean, Year)` for 1995–2020.
-  4. **Master Consolidation:** Assemble team contributions into `rendu/Laurent_notebook.ipynb` and coordinate the 5-minute defense presentation deck.
 
 ---
 
@@ -129,13 +127,13 @@ To ensure seamless parallel collaboration without Git merge conflicts, the proje
 ---
 
 ### 👤 Part 4: Spatial Hotspot Clustering & Interactive Dash Prototype
-* **Assigned to:** **Louis LE FORESTIER** (`@louislefo`)
+* **Assigned to:** **Maxime LAURENT** (`@maximelrnt`, Team Leader)
 * **Branch:** `feature/spatial-dashboard`
 * **Assigned Files:**
   - `projet/notebooks/04_spatial_clustering_todo.ipynb`
   - Function in `projet/src/indicators.py`: `query_spatial_clustering()`
   - `projet/src/dashboard.py`
-  - `rendu/Laurent_dashboard.html`
+  - Coordination and assembly of master deliverables: `rendu/Laurent_notebook.ipynb`, `rendu/Laurent_dashboard.html`, `rendu/Laurent_slides.pdf`
 * **Key Missions & Deliverables:**
   1. **Query 4 — Spatial Analysis & Hotspot Clustering [2 pts]:**
      - Geocode unique coastal regions into `projet/data/locations_geocoded.csv`.
@@ -148,6 +146,7 @@ To ensure seamless parallel collaboration without Git merge conflicts, the proje
      - Build the multi-tab Plotly Dash application in `src/dashboard.py` displaying all 4 queries + Tourism Bonus.
      - Include mandatory header: Project title, both dataset names, and all 4 team members.
      - Implement the static HTML export function `export_dashboard_html()` saving `rendu/Laurent_dashboard.html` to guarantee immunity against the `-2 pts` penalty.
+  3. **Master Consolidation & Oral Defense:** Final assembly of `rendu/Laurent_notebook.ipynb` and coordination of `rendu/Laurent_slides.pdf`.
 
 ---
 
@@ -157,13 +156,13 @@ Total: **20 Points + 1 Bonus Point**
 
 | Task | Evaluation Criteria | Points | Responsible Member |
 | :--- | :--- | :---: | :--- |
-| **1. Data Exploration** | Ingestion, shape, dtypes, missing data, numeric ranges, and human Markdown description. | **2 pts** | **Maxime LAURENT** |
+| **1. Data Exploration** | Ingestion, shape, dtypes, missing data, numeric ranges, and human Markdown description. | **2 pts** | **Louis LE FORESTIER** |
 | **2. Information Building** | **Four distinct analytical queries** implemented as documented functions: | **7 pts** | |
 | ↳ *Query 1* | Aggregation & Grouping (Attacks & Fatality rate by Country/Activity). | *1 pt* | **Baptiste NOAILHAC** |
 | ↳ *Query 2* | Frequent Pattern Mining (`Apriori` + Association Rules with `mlxtend`). | *2 pts* | **Baptiste NOAILHAC** |
 | ↳ *Query 3* | Temporal Dynamics & 5-year `Prophet` forecasting. | *2 pts* | **Romain THEPAUT** |
-| ↳ *Query 4* | Spatial Hotspot Clustering (`GeoPandas` + `OPTICS` / `K-Means`). | *2 pts* | **Louis LE FORESTIER** |
-| **3. Interactive Dashboard** | Python **Dash** web prototype with 5 tabs, team credits, and offline HTML proof. | **2 pts** | **Louis LE FORESTIER** |
+| ↳ *Query 4* | Spatial Hotspot Clustering (`GeoPandas` + `OPTICS` / `K-Means`). | *2 pts* | **Maxime LAURENT** |
+| **3. Interactive Dashboard** | Python **Dash** web prototype with 5 tabs, team credits, and offline HTML proof. | **2 pts** | **Maxime LAURENT** |
 | **4. GitHub Repository** | Clean public repository, modular structure, informative documentation. | **1 pt** | **All Members** |
 | **5. Presentation & Demo** | 5-minute slide deck (`Laurent_slides.pdf`), live notebook demo, Q&A. | **8 pts** | **All Members** (presenter drawn randomly) |
 | **6. External Dataset** | Macroeconomic World Bank Tourism integration & relative risk correlation. | **+1 pt** | **Romain THEPAUT** |
