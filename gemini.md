@@ -30,7 +30,7 @@ Full local installation instructions are documented in [`doc/DATA_SETUP.md`](doc
 - [`doc/DATA_SETUP.md`](doc/DATA_SETUP.md) — Local dataset download and verification guide
 - [`doc/INDICATORS_SPEC.md`](doc/INDICATORS_SPEC.md) — Technical specs for Queries 1-4, Tourism Bonus, and Dash dashboard
 - [`doc/TEAM_WORKFLOW.md`](doc/TEAM_WORKFLOW.md) — Ownership split and Git workflow
-- `projet/notebooks/*_todo.ipynb` — Working notebooks with structured `TODO` scaffolds
+- `projet/notebooks/*.ipynb` — Working notebooks with structured `TODO` scaffolds
 - `projet/src/` — Shared modular Python functions (`data_loader.py`, `indicators.py`, `dashboard.py`)
 - `rendu/` — Official DVLC deliverables (`Laurent_notebook.ipynb`, `Laurent_dashboard.html`, `Laurent_slides.pdf`)
 

@@ -4,7 +4,7 @@ This document defines every data cleaning step, analytical indicator, visualizat
 
 ---
 
-## 1. EDA & Preprocessing (`01_eda_and_cleaning_todo.ipynb` / `src/data_loader.py`)
+## 1. EDA & Preprocessing (`01_eda_and_cleaning.ipynb` / `src/data_loader.py`)
 
 ### Mandatory EDA Outputs `[2 pts]`
 For both datasets (`attacks.csv` and `tourism_arrivals.csv`), `summarize_dataset()` must output:
@@ -40,7 +40,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 > Every indicator below **must** have its own Markdown cell explaining: (1) how it is calculated, (2) what it represents, and (3) how to interpret it. Missing an explanation incurs a **-2 points penalty**.
 
 ### Query 1 — Grouping & Aggregation `[1 pt]`
-- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori_todo.ipynb`)
+- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori.ipynb`)
 - **Calculations:**
   - Total attack counts and share (%) for the **Top 10 Countries**.
   - Attack count and **Fatality Rate (`Fatal %`)** by `Activity_group`.
@@ -48,7 +48,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Plotly horizontal bar chart (Top 10 Countries) and grouped/colored bar chart (Attacks & Fatality Rate by Activity).
 
 ### Query 2 — Frequent Pattern Mining (`Apriori`) `[2 pts]`
-- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori_todo.ipynb`)
+- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori.ipynb`)
 - **Course reference:** Lab 9 (`mlxtend.frequent_patterns.apriori` & `association_rules`).
 - **Calculations:**
   - Build a boolean one-hot transaction table from discretized attributes (`Country_top`, `Activity_group`, `Type`, `Season`, `Time_of_day`, `Fatal`).
@@ -57,7 +57,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Support sensitivity curve + Plotly scatter plot (`support` vs. `confidence`, colored by `lift`, with rule labels on hover).
 
 ### Query 3 — Temporal Dynamics & Forecasting (`Prophet`) `[2 pts]`
-- **Owner:** Romain Thepaut (`03_temporal_forecasting_todo.ipynb`)
+- **Owner:** Romain Thepaut (`03_temporal_forecasting.ipynb`)
 - **Course reference:** Lab 7 (`prophet.Prophet`, `plot_plotly`, `plot_components_plotly`).
 - **Calculations:**
   - Aggregate monthly/annual shark attack counts from 1960 to the last complete year (`ds`, `y`).
@@ -66,7 +66,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Hemisphere seasonality comparison plot + Prophet interactive forecast plot with uncertainty intervals and trend changepoints.
 
 ### Query 4 — Spatial Analysis & Hotspot Clustering (`GeoPandas` + `OPTICS` / `K-Means`) `[2 pts]`
-- **Owner:** Louis Le Forestier (`04_spatial_clustering_todo.ipynb`)
+- **Owner:** Louis Le Forestier (`04_spatial_clustering.ipynb`)
 - **Course reference:** Lab 8 (`geopandas`, `shapely.geometry.Point`, `sjoin`, `sklearn.cluster.OPTICS`, `KMeans`).
 - **Calculations:**
   - Geocode unique `(Area, Country)` coastal zones into `projet/data/locations_geocoded.csv`.
@@ -79,7 +79,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 
 ## 3. External Dataset Bonus — Tourism Risk Correlation `[+1 pt]`
 
-- **Owner:** Romain Thepaut (`05_tourism_bonus_todo.ipynb`)
+- **Owner:** Romain Thepaut (`05_tourism_bonus.ipynb`)
 - **Join:** Inner join on `(Country_clean, Year)` across **1995-2020** (26 overlapping years).
 - **Calculations:**
   - Tourism-normalized risk indicator:

@@ -28,16 +28,16 @@ The primary dataset satisfies all three mandatory multidimensional axes:
 
 | Task | Requirement | Points | Deliverable / Module |
 | --- | --- | :---: | --- |
-| **1. Data Exploration** | Load datasets, print rows/columns, data types, missing values per column, numeric value ranges, and human-readable Markdown description of dataset meaning and dropped features. | **2 pts** | `01_eda_and_cleaning_todo.ipynb` / `src/data_loader.py` |
-| **2. Information Building** | Four distinct analytical queries implemented as functions, each visualized and explained in a dedicated Markdown cell: | **7 pts** | `02..04_*_todo.ipynb` / `src/indicators.py` |
-| - Query 1 | Grouping / aggregation query (top countries, activity distribution, fatality rates). | *1 pt* | `02_grouping_and_apriori_todo.ipynb` |
-| - Query 2 | Frequent pattern mining (`mlxtend` `apriori` + `association_rules`). | *2 pts* | `02_grouping_and_apriori_todo.ipynb` |
-| - Query 3 | Temporal analysis and multi-year forecasting (`Prophet`). | *2 pts* | `03_temporal_forecasting_todo.ipynb` |
-| - Query 4 | Spatial analysis and hotspot clustering (`GeoPandas` + `OPTICS`/`K-Means`). | *2 pts* | `04_spatial_clustering_todo.ipynb` |
+| **1. Data Exploration** | Load datasets, print rows/columns, data types, missing values per column, numeric value ranges, and human-readable Markdown description of dataset meaning and dropped features. | **2 pts** | `01_eda_and_cleaning.ipynb` / `src/data_loader.py` |
+| **2. Information Building** | Four distinct analytical queries implemented as functions, each visualized and explained in a dedicated Markdown cell: | **7 pts** | `02..04_*.ipynb` / `src/indicators.py` |
+| - Query 1 | Grouping / aggregation query (top countries, activity distribution, fatality rates). | *1 pt* | `02_grouping_and_apriori.ipynb` |
+| - Query 2 | Frequent pattern mining (`mlxtend` `apriori` + `association_rules`). | *2 pts* | `02_grouping_and_apriori.ipynb` |
+| - Query 3 | Temporal analysis and multi-year forecasting (`Prophet`). | *2 pts* | `03_temporal_forecasting.ipynb` |
+| - Query 4 | Spatial analysis and hotspot clustering (`GeoPandas` + `OPTICS`/`K-Means`). | *2 pts* | `04_spatial_clustering.ipynb` |
 | **3. Visualization Dashboard** | Python **Dash** dashboard organizing all four queries + tourism bonus, clearly displaying all 4 team member names and dataset names. | **2 pts** | `src/dashboard.py` + `rendu/Laurent_dashboard.html` |
 | **4. GitHub Repository** | Public GitHub repository with clean modular code, informative `README.md`, and documentation. | **1 pt** | Root repo + `doc/` |
 | **5. Presentation & Demo** | 5-minute slide presentation (`Laurent_slides.pdf`), live notebook demo (presenter picked right before start), and Q&A. | **8 pts** | `rendu/Laurent_slides.pdf` + `rendu/Laurent_notebook.ipynb` |
-| **6. External Dataset (Bonus)** | Enrich and interpret primary findings with World Bank International Tourism (`ST.INT.ARVL`, 1995-2020). | **+1 pt** | `05_tourism_bonus_todo.ipynb` |
+| **6. External Dataset (Bonus)** | Enrich and interpret primary findings with World Bank International Tourism (`ST.INT.ARVL`, 1995-2020). | **+1 pt** | `05_tourism_bonus.ipynb` |
 
 ---
 
