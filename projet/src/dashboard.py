@@ -107,7 +107,9 @@ def create_dash_app(figures_dict=None):
 # Input: figures_dict (dict), output_path (str) - path to rendu/Laurent_dashboard.html
 # Output: output_path (str) of the written HTML file
 def export_dashboard_html(figures_dict, output_path):
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
 
     # TODO (Louis): enhance HTML layout with KPI cards and Markdown summaries
     sections = []
@@ -140,6 +142,57 @@ def export_dashboard_html(figures_dict, output_path):
 
 
 if __name__ == "__main__":
-    # Quick local preview with placeholder figures until indicators.py is implemented
-    app = create_dash_app()
-    app.run(debug=True, port=8050)
+    import sys
+    src_dir = os.path.dirname(os.path.abspath(__file__))
+    if src_dir not in sys.path:
+        sys.path.insert(0, src_dir)
+
+    from data_loader import load_shark_data, load_tourism_data, clean_shark_data, clean_and_merge_tourism
+    from indicators import (
+        query_grouping_analysis,
+        query_frequent_patterns,
+        query_temporal_forecast,
+        query_spatial_clustering,
+        query_tourism_enrichment
+    )
+    import pandas as pd
+
+    shark_path = os.path.join(src_dir, "../data/attacks.csv")
+    tourism_path = os.path.join(src_dir, "../data/tourism_arrivals.csv")
+    geo_path = os.path.join(src_dir, "../data/locations_geocoded.csv")
+
+    figures = {}
+    if os.path.exists(shark_path):
+        print("Loading and cleaning datasets for dashboard...")
+        shark = clean_shark_data(load_shark_data(shark_path))
+        print("Computing Query 1...")
+        r1 = query_grouping_analysis(shark)
+        print("Computing Query 2...")
+        r2 = query_frequent_patterns(shark)
+        print("Computing Query 3...")
+        r3 = query_temporal_forecast(shark)
+        figures["query1_grouping"] = r1["fig_countries"]
+        figures["query2_apriori"] = r2["fig_rules"]
+        figures["query3_forecast"] = r3["fig_forecast"]
+
+        if os.path.exists(geo_path):
+            print("Computing Query 4...")
+            geo = pd.read_csv(geo_path)
+            r4 = query_spatial_clustering(shark, geo)
+            figures["query4_spatial"] = r4["fig_map"]
+
+        if os.path.exists(tourism_path):
+            print("Computing Bonus Query...")
+            tourism = load_tourism_data(tourism_path)
+            merged = clean_and_merge_tourism(shark, tourism)
+            r5 = query_tourism_enrichment(merged)
+            figures["bonus_tourism"] = r5["fig_trends"]
+
+    # Export static proof to protect against -2 pts penalty
+    proof_path = os.path.join(src_dir, "../../rendu/Laurent_dashboard.html")
+    export_dashboard_html(figures, proof_path)
+    print(f"Exported static dashboard proof to: {proof_path}")
+
+    app = create_dash_app(figures)
+    print("Starting Dash server at http://127.0.0.1:8050/")
+    app.run(debug=False, port=8050)
