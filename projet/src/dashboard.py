@@ -1,5 +1,5 @@
 # Interactive Plotly Dash dashboard prototype for the Final Project
-# Owner: Louis Le Forestier
+# Owner: Maxime Laurent (Team Leader)
 # Displays all 4 analytical queries + External Tourism Bonus, team members, and dataset titles
 
 import os

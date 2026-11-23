@@ -248,7 +248,7 @@ def query_temporal_forecast(shark_df, forecast_years=5):
 
 
 # ==============================================================================
-# Query 4: Spatial Analysis & Clustering (GeoPandas + OPTICS/KMeans) [2 points] — Owner: Louis Le Forestier
+# Query 4: Spatial Analysis & Clustering (GeoPandas + OPTICS/KMeans) [2 points] — Owner: Maxime Laurent (Team Leader)
 # ==============================================================================
 
 # Function for geocoding coastal areas and running spatial hotspot clustering
