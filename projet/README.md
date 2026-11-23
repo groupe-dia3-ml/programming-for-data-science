@@ -1,80 +1,42 @@
-# Final Project — Multidimensional KDD Visualization Prototype
+# Projet Workspace — Multidimensional KDD Prototype
 
-> **Course**: Programming for Data Science — Master in Data Science (ESILV)  
-> **Instructor**: Hugo Alatrista-Salas  
-> **Lead Deliverable**: `Laurent_notebook.ipynb`  
-> **Presentation**: `Laurent_slides.pdf`  
-> **Dashboard**: `Laurent_dashboard.html` / `src/dashboard.py`
-
----
-
-## 🎯 Project Objective
-
-The goal of this final project is to build an end-to-end data mining and visualization prototype applying the **Knowledge Discovery in Databases (KDD)** process to a **multidimensional dataset**:
-1. **Temporal Dimension (*When*)**: Event dates, periods, or time-series timestamps.
-2. **Spatial Dimension (*Where*)**: Latitude, longitude, country, city, or administrative zones.
-3. **Analytical Dimension (*Characteristics*)**: Quantitative attributes, categories, and domain metrics.
+> **Course:** Programming for Data Science (ESILV A4 DIA3)
+> **Instructor:** Hugo Alatrista-Salas
+> **Team Leader:** Maxime Laurent (`@maximelrnt`)
+> **Members:** Maxime Laurent, Louis Le Forestier, Baptiste Noailhac, Romain Thepaut
 
 ---
 
-## 📂 Project Directory Structure
+## Directory Structure
 
 ```text
 projet/
-├── Final_project.pdf            # Official project subject & evaluation rules
-├── README.md                    # Project-level guide & instructions
-├── Laurent_notebook.ipynb       # Main submission notebook
-│
-├── data/                        # Datasets directory
+├── Final_project.pdf            # Official project subject and grading rubric
+├── README.md                    # This workspace guide
+├── data/                        # Local-only datasets (ignored by Git - see ../doc/DATA_SETUP.md)
 │   ├── .gitkeep
-│   └── README.md                # Data documentation & sourcing links
-│
-├── src/                         # Modular Python functions
+│   └── README.md
+├── notebooks/                   # Working notebooks with structured TODOs
+│   ├── 01_eda_and_cleaning_todo.ipynb
+│   ├── 02_grouping_and_apriori_todo.ipynb
+│   ├── 03_temporal_forecasting_todo.ipynb
+│   ├── 04_spatial_clustering_todo.ipynb
+│   └── 05_tourism_bonus_todo.ipynb
+├── src/                         # Shared reusable Python modules (TODO skeletons)
 │   ├── __init__.py
-│   ├── data_loader.py           # Data ingestion, schema validation & exploration
-│   ├── indicators.py            # The 4 analytical queries (Aggregation, Mining, Time, Space)
-│   └── dashboard.py             # Plotly Dash web dashboard application
-│
-└── slides/                      # Presentation slides directory
-    └── README.md                # Slide guidelines & timing (5 minutes presentation)
+│   ├── data_loader.py
+│   ├── indicators.py
+│   └── dashboard.py
+└── slides/
+    └── README.md                # Slide structure and timing guide (5 minutes)
 ```
 
 ---
 
-## 📋 Deliverable & Grading Checklist (20 Points + 1 Extra Point)
+## Quick Links
 
-### 1. Data Exploration [2 points]
-* Load multidimensional dataset into a pandas DataFrame.
-* Profile the data: number of rows and columns, data types, missing value distribution, numerical value ranges.
-* Human-readable Markdown cell explaining the real-world significance of each attribute.
-
-### 2. Information Building (4 Queries) [7 points]
-* **Query 1 [1 pt]**: Aggregation / grouping query (e.g. `groupby` with `sum`, `max`, `count`, rate calculations).
-* **Query 2 [2 pts]**: Frequent pattern mining (Apriori, PrefixSpan) or advanced ML (deep learning, text mining).
-* **Queries 3 & 4 [4 pts]**: Temporal forecasting (Prophet) and Spatial clustering (OPTICS / K-Means on coordinates with GeoPandas).
-* *Mandatory:* Every indicator must have an accompanying Markdown box describing how it was computed, what it represents, and how to interpret it.
-
-### 3. Interactive Visualization Dashboard [2 points]
-* Implemented in Python **Dash** (`src/dashboard.py`).
-* Consolidates all four query results into an intuitive visual layout.
-* Clearly displays team member names and dataset title.
-
-### 4. GitHub Repository [1 point]
-* Code organized cleanly into reusable functions.
-* Detailed README and `.gitignore`.
-
-### 5. Final Presentation & Demo [8 points]
-* 5-minute presentation using slides (`Laurent_slides.pdf`).
-* Live demo of the notebook and dashboard.
-* Q&A session with the instructor.
-
-### 6. External Dataset [1 Extra Point]
-* Enrich analysis by joining or cross-referencing an external data source.
-
----
-
-## ⚠️ Anti-Penalty Rules (Avoid Losing Points!)
-1. **Always use functions with docstrings:** Every technique must be encapsulated in a `def func_name(df):` block with comments detailing `Input`, `Output`, and key implementation decisions (**-2 pts penalty if missing**).
-2. **Always document indicators in Markdown:** No standalone code without human explanation (**-2 pts penalty if missing**).
-3. **Working Dashboard:** Must be verifiable and operational (**-2 pts penalty if broken**).
-4. **All team members must be present at the demo** (**-8 pts penalty if missing**).
+- Environment setup: [`../REQUIREMENTS.md`](../REQUIREMENTS.md)
+- Local data download guide: [`../doc/DATA_SETUP.md`](../doc/DATA_SETUP.md)
+- Indicators & dashboard spec: [`../doc/INDICATORS_SPEC.md`](../doc/INDICATORS_SPEC.md)
+- Team workflow & coding standards: [`../doc/TEAM_WORKFLOW.md`](../doc/TEAM_WORKFLOW.md)
+- Final deliverables folder: [`../rendu/README.md`](../rendu/README.md)

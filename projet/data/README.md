@@ -1,21 +1,12 @@
-# Data Directory — Multidimensional Dataset Selection
+# Local Data Directory
 
-Place your selected and validated multidimensional dataset files in this directory.
+Datasets are **not tracked by Git** (see `.gitignore`). Every team member must install the datasets locally in this folder.
 
-## 🧭 Criteria for a Valid Dataset
-According to `Final_project.pdf`, your chosen dataset must include:
-1. **Temporal Dimension (*When*)**: Timestamps, dates, years, or sequential periods.
-2. **Spatial Dimension (*Where*)**: Latitude/longitude coordinates, countries, or polygons.
-3. **Analytical Dimension (*What*)**: Feature characteristics, continuous measurements, classifications, or categories.
+Follow the complete step-by-step installation guide in [`../../doc/DATA_SETUP.md`](../../doc/DATA_SETUP.md).
 
-*⚠️ Remember: The selected dataset must be **validated by the instructor** before proceeding.*
+## Expected Local Files
 
----
-
-## 🌐 Recommended Sources:
-* **EM-DAT Global Natural Disasters**: [https://doc.emdat.be](https://doc.emdat.be)
-* **Kaggle**: [https://www.kaggle.com](https://www.kaggle.com)
-* **Google Dataset Search**: [https://datasetsearch.research.google.com](https://datasetsearch.research.google.com)
-* **NYC TLC Taxi Trip Records**: [https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
-* **NOAA Environmental & Weather**: [https://www.ncei.noaa.gov/access/search/index](https://www.ncei.noaa.gov/access/search/index)
-* **Humanitarian Data Exchange (HDX)**: [https://data.humdata.org/dataset](https://data.humdata.org/dataset)
+1. `attacks.csv` (or `GSAF5.xls`) — Primary dataset from Kaggle (`https://www.kaggle.com/datasets/mexwell/global-shark-attack`)
+2. `tourism_arrivals.csv` — External bonus dataset from World Bank (`https://data.worldbank.org/indicator/ST.INT.ARVL`)
+3. `locations_geocoded.csv` — Coastal `(Area, Country -> latitude, longitude)` cache generated once by `04_spatial_clustering_todo.ipynb`
+4. `countries_shp/` — Natural Earth country polygons copied from Lab 8 (`ne_110m_admin_0_countries.*`)
