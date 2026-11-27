@@ -10,6 +10,8 @@ latexmk -xelatex -halt-on-error -outdir="$slides_build" projet/slides/Laurent_sl
 cp "$slides_build/Laurent_slides.pdf" rendu/Laurent_slides.pdf
 ```
 
+The cover illustration and vector map are in `assets/`. The map uses the coastal cluster points saved in the final notebook and [Natural Earth 1:110m land](https://github.com/nvkelso/natural-earth-vector/blob/v5.1.2/geojson/ne_110m_land.geojson).
+
 ## Recommended 6-Slide Structure (5 Minutes Total)
 
 | Slide | Title | Target Time | Key Content |

@@ -1,166 +1,183 @@
 \documentclass[aspectratio=169,11pt]{beamer}
 \usepackage{fontspec}
-\setsansfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]{texgyreheros}
 \usepackage{booktabs}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
+\setmainfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold]{texgyrepagella}
+\setsansfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,
+  ItalicFont=*-italic,BoldItalicFont=*-bolditalic]{texgyreheros}
+\setmonofont[Extension=.otf,UprightFont=*-regular]{texgyrecursor}
 
-\definecolor{Ocean}{HTML}{0C2D3B}
-\definecolor{Teal}{HTML}{007870}
-\definecolor{Rust}{HTML}{A5412B}
-\definecolor{Slate}{HTML}{48616A}
-\definecolor{Paper}{HTML}{F5F7F6}
-\setbeamercolor{normal text}{fg=Ocean,bg=Paper}
-\setbeamercolor{structure}{fg=Teal}
-\setbeamercolor{frametitle}{fg=Ocean}
-\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\definecolor{Abyss}{HTML}{0B2733}
+\definecolor{Ink}{HTML}{102F36}
+\definecolor{Paper}{HTML}{F6F3E9}
+\definecolor{Rule}{HTML}{CBD2C7}
+\definecolor{Teal}{HTML}{006E66}
+\definecolor{Seafoam}{HTML}{45DCCA}
+\definecolor{Coral}{HTML}{F5A384}
+\definecolor{Muted}{HTML}{48615E}
+\definecolor{Mist}{HTML}{C0D3D8}
+\setbeamercolor{background canvas}{bg=Paper}
 \setbeamertemplate{navigation symbols}{}
-\setbeamersize{text margin left=9mm,text margin right=9mm}
-\setbeamertemplate{frametitle}{%
-  \vspace{5mm}\insertframetitle\par\vspace{3mm}%
-}
+\graphicspath{{projet/slides/assets/}}
+\hypersetup{pdftitle={Global shark attack reports},pdfauthor={Maxime Laurent, Louis Le Forestier, Baptiste Noailhac, Romain Thepaut}}
 
-\newcommand{\labeltext}[1]{\textcolor{Teal}{\textbf{#1}}}
-\newcommand{\details}[1]{{\small\color{Slate}#1}}
-\newcommand{\metric}[1]{{\LARGE\bfseries\color{Teal}#1}}
+% Coordinates are measured in millimeters from the top-left corner.
+\newcommand{\placed}[4]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north west,inner sep=0pt,outer sep=0pt,align=left,text width=#3mm]
+      at ([xshift=#1mm,yshift=-#2mm]current page.north west) {#4};
+  \end{tikzpicture}%
+}
+\newcommand{\divider}[4]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[#4,line width=.45pt]
+      ([xshift=#1mm,yshift=-#2mm]current page.north west) -- ++(#3mm,0);
+  \end{tikzpicture}%
+}
+\newcommand{\eyebrow}[1]{{\ttfamily\addfontfeatures{LetterSpace=8}\fontsize{8}{10}\selectfont #1}}
+\newcommand{\displaytitle}[1]{{\rmfamily\fontsize{28}{28}\selectfont #1}}
+\newcommand{\bodytext}[1]{{\sffamily\fontsize{10}{13}\selectfont\raggedright #1\par}}
+\newcommand{\smalltext}[1]{{\sffamily\fontsize{8}{10}\selectfont\raggedright #1\par}}
+\newcommand{\metric}[1]{{\rmfamily\fontsize{35}{35}\selectfont #1}}
+\newcommand{\sectiontitle}[2]{%
+  \placed{9}{6}{140}{\color{Teal}\eyebrow{#1}}
+  \placed{9}{12}{142}{\color{Ink}\displaytitle{#2}}
+  \divider{9}{25}{142}{Rule}
+}
+\newcommand{\sourcefooter}[4]{%
+  \divider{9}{81}{142}{#4}
+  \placed{9}{83}{130}{\color{#3}\smalltext{#1}}
+  \placed{143}{83}{8}{\color{#3}\eyebrow{#2}}
+}
+\newcommand{\reportbar}[4]{%
+  \placed{9}{#1}{73}{\color{Ink}%
+    \bodytext{\makebox[56mm][l]{#2}\textbf{#3}}
+    \vspace{.6mm}
+    \textcolor{Teal}{\rule{#4mm}{1.7mm}}}
+}
 
 \begin{document}
 
 {
-\setbeamercolor{background canvas}{bg=Ocean}
-\setbeamercolor{normal text}{fg=white}
-\begin{frame}[plain,c]
-  \color{white}
-  {\small\bfseries ESILV · PROGRAMMING IN DATA SCIENCE · DIA3\par}
-  \vspace{7mm}
-  {\Huge\bfseries Global shark attacks\par}
-  \vspace{2mm}
-  {\large Where and when are shark incidents reported?\par}
-  \vspace{10mm}
-  Maxime Laurent · Louis Le Forestier\\
-  Baptiste Noailhac · Romain Thepaut\par
-  \vspace{3mm}
-  {\small Global Shark Attack File and World Bank tourism arrivals}
+\setbeamercolor{background canvas}{bg=Abyss}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\paperwidth,height=\paperheight]{shark-cover.jpg}};
+  \end{tikzpicture}
+  \placed{10}{9}{142}{\color{Seafoam}\eyebrow{ESILV / PROGRAMMING IN DATA SCIENCE / DIA3}}
+  \placed{10}{22}{86}{\color{Paper}\rmfamily\fontsize{33}{32}\selectfont Global shark\\attack reports}
+  \placed{10}{49}{72}{\color{Paper}\bodytext{Where and when are incidents reported?}}
+  \divider{10}{64}{40}{Seafoam}
+  \placed{10}{69}{92}{\color{Paper}\smalltext{Maxime Laurent · Louis Le Forestier\\Baptiste Noailhac · Romain Thepaut}}
+  \placed{10}{80}{105}{\color{Mist}\smalltext{Global Shark Attack File · World Bank tourism arrivals}}
 \end{frame}
 }
 
-\begin{frame}[t]{From raw records to 4,033 incidents}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{.43\textwidth}
-      \metric{25,723}\par
-      \details{Raw CSV rows, including blank padding}\par
-      \vspace{5mm}
-      \metric{4,033}\par
-      \details{Incidents retained for 1960–2018}\par
-    \end{column}
-    \begin{column}{.55\textwidth}
-      \labeltext{Time}\quad Year, month and local season\par
-      \medskip
-      \labeltext{Place}\quad Country and coastal area\par
-      \medskip
-      \labeltext{Incident}\quad Activity, species and fatality\par
-      \vspace{5mm}
-      We profiled missing values, removed blank rows and administrative fields, and standardized country and activity names.
-    \end{column}
-  \end{columns}
-  \vspace{5mm}
-  \details{Coastal coordinates are assigned by area in the Global Shark Attack File analysis.}
+\begin{frame}[plain]
+  \sectiontitle{DATA AND PREPARATION}{The incident records}
+  \placed{9}{31}{64}{\color{Teal}\metric{4,033}\\[-1mm]\color{Ink}\bodytext{incidents in the 1960–2018 snapshot}}
+  \placed{9}{53}{60}{\color{Muted}\smalltext{\textbf{25,723} raw CSV rows before cleaning, including blank padding.}}
+  \placed{9}{64}{60}{\color{Muted}\smalltext{Profiled missing values, removed administrative fields and standardized categories.}}
+  \placed{82}{33}{69}{\color{Ink}\bodytext{\textbf{When} \quad Year, month and local season}}
+  \divider{82}{41}{69}{Rule}
+  \placed{82}{45}{69}{\color{Ink}\bodytext{\textbf{Where} \quad Country and coastal area}}
+  \divider{82}{53}{69}{Rule}
+  \placed{82}{57}{69}{\color{Ink}\bodytext{\textbf{What} \quad Activity, species and outcome}}
+  \placed{82}{68}{69}{\color{Muted}\smalltext{Coastal coordinates were assigned by area.}}
+  \sourcefooter{Global Shark Attack File · Cleaned snapshot}{02}{Muted}{Rule}
 \end{frame}
 
-\begin{frame}[t]{Reported incidents and recurring profiles}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{.51\textwidth}
-      \labeltext{Reported incidents by country}\par
-      \smallskip
-      \begin{tabular}{@{}lr@{}}
-        \toprule
-        United States & 1,756 \\
-        Australia & 704 \\
-        South Africa & 432 \\
-        \bottomrule
-      \end{tabular}\par
-      \vspace{4mm}
-      \details{Surfing accounts for 1,257 reports. The recorded fatal share is 5.25\%.}
-    \end{column}
-    \begin{column}{.45\textwidth}
-      \labeltext{Apriori and association rules}\par
-      \smallskip
-      A 3\% minimum support retained 417 frequent itemsets. A lift threshold of 1.05 retained 2,262 rules.\par
-      \vspace{4mm}
-      \details{Support measures frequency. Confidence gives the conditional share. Lift compares that share with the overall baseline.}
-    \end{column}
-  \end{columns}
-  \vspace{4mm}
-  \details{Grouping also reports the share of incidents recorded as fatal, by activity and identified species.}
+\begin{frame}[plain]
+  \sectiontitle{GROUPING AND APRIORI}{Where reports concentrate}
+  \placed{9}{30}{74}{\color{Teal}\eyebrow{TOP COUNTRIES BY REPORTED INCIDENTS}}
+  \reportbar{35}{United States}{1,756}{58}
+  \reportbar{46}{Australia}{704}{23.3}
+  \reportbar{57}{South Africa}{432}{14.3}
+  \placed{9}{69}{72}{\color{Muted}\smalltext{Surfing had the most reports by activity (1,257). Of those, 5.25\% were recorded as fatal.}}
+  \placed{92}{30}{58}{\color{Teal}\eyebrow{RECURRING PROFILES}}
+  \placed{92}{36}{23}{\color{Ink}\rmfamily\fontsize{25}{25}\selectfont 417}
+  \placed{116}{36}{35}{\color{Ink}\rmfamily\fontsize{25}{25}\selectfont 2,262}
+  \placed{92}{46}{25}{\color{Muted}\smalltext{frequent itemsets}}
+  \placed{116}{46}{34}{\color{Muted}\smalltext{association rules}}
+  \divider{92}{54}{59}{Rule}
+  \placed{92}{58}{59}{\color{Ink}\bodytext{Apriori used 3\% minimum support. Rules passed a 1.05 lift threshold.}}
+  \placed{92}{70}{59}{\color{Muted}\smalltext{Lift compares a rule’s confidence with the baseline frequency of its outcome.}}
+  \sourcefooter{Global Shark Attack File · Report counts and associations}{03}{Muted}{Rule}
 \end{frame}
 
-\begin{frame}[t]{Seasonal peaks and coastal clusters}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{.58\textwidth}
-      \labeltext{Monthly share of reports (\%)}\par
-      \begin{tikzpicture}
-        \begin{axis}[
-          width=\linewidth,height=39mm,scale only axis=false,
-          xmin=0.6,xmax=12.4,ymin=0,ymax=18,
-          xtick={1,4,7,10,12},xticklabels={Jan,Apr,Jul,Oct,Dec},
-          ytick={0,5,10,15},tick align=outside,
-          tick label style={font=\tiny,text=Slate},
-          axis line style={draw=Slate!55},axis lines=left,
-          ymajorgrids,grid style={draw=Slate!18},
-          legend style={draw=none,fill=none,at={(0,-0.30)},anchor=north west,
-            legend columns=1,font=\scriptsize,cells={anchor=west}},
-        ]
-          \addplot[Teal,thick,mark=*,mark size=1pt] coordinates {
-            (1,2.49) (2,2.77) (3,4.86) (4,8.27) (5,7.69) (6,11.39)
-            (7,14.45) (8,14.51) (9,13.93) (10,10.64) (11,5.95) (12,3.06)};
-          \addlegendentry{United States}
-          \addplot[Rust,thick,dashed,mark=square*,mark size=1pt] coordinates {
-            (1,15.8) (2,11.25) (3,9.11) (4,8.75) (5,5.54) (6,5.36)
-            (7,5.8) (8,4.55) (9,5.89) (10,7.41) (11,7.95) (12,12.59)};
-          \addlegendentry{Australia and South Africa}
-        \end{axis}
-      \end{tikzpicture}
-    \end{column}
-    \begin{column}{.38\textwidth}
-      \labeltext{Five-year forecast}\par
-      \smallskip
-      \details{Prophet fitted to 1960–2017 projects 112–118 annual reports in 2018–2022, with wide uncertainty.}\par
-      \vspace{4mm}
-      \labeltext{Spatial clustering}\par
-      \smallskip
-      \details{95.6\% of reports received coastal coordinates. K-means groups them into six clusters. OPTICS checks local density.}
-    \end{column}
-  \end{columns}
+{
+\setbeamercolor{background canvas}{bg=Abyss}
+\begin{frame}[plain]
+  \placed{9}{6}{139}{\color{Seafoam}\eyebrow{TIME AND PLACE}}
+  \placed{9}{12}{142}{\color{Paper}\displaytitle{Seasonality and coastal clusters}}
+  \divider{9}{25}{142}{Mist!45!Abyss}
+  \placed{9}{29}{71}{\color{Paper}\bodytext{\textbf{Monthly share of reports (\%)}}}
+  \placed{9}{35}{72}{%
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=65mm,height=24mm,scale only axis,
+        xmin=1,xmax=12,ymin=0,ymax=18,enlarge x limits=.02,
+        xtick={1,4,7,10,12},xticklabels={Jan,Apr,Jul,Oct,Dec},
+        ytick={0,5,10,15},tick align=outside,tick style={Mist!65!Abyss},
+        tick label style={font=\scriptsize,text=Mist},
+        axis line style={draw=Mist!65!Abyss},axis lines=left,
+        ymajorgrids,grid style={draw=Mist!22!Abyss},clip=false,
+      ]
+        \addplot[Seafoam,line width=1.0pt,mark=*,mark size=1pt] coordinates {
+          (1,2.49) (2,2.77) (3,4.86) (4,8.27) (5,7.69) (6,11.39)
+          (7,14.45) (8,14.51) (9,13.93) (10,10.64) (11,5.95) (12,3.06)};
+        \addplot[Coral,line width=1.0pt,dashed,mark=square*,mark size=.8pt] coordinates {
+          (1,15.8) (2,11.25) (3,9.11) (4,8.75) (5,5.54) (6,5.36)
+          (7,5.8) (8,4.55) (9,5.89) (10,7.41) (11,7.95) (12,12.59)};
+      \end{axis}
+    \end{tikzpicture}}
+  \placed{9}{65}{75}{\smalltext{\textcolor{Seafoam}{United States}\qquad\textcolor{Coral}{Australia and South Africa}}}
+  \placed{9}{71}{72}{\color{Mist}\smalltext{Prophet projected 112–118 reports per year for 2018–2022, with wide uncertainty.}}
+  \placed{94}{29}{57}{\color{Paper}\bodytext{\textbf{Six coastal clusters}}}
+  \placed{93}{37}{58}{\includegraphics[width=58mm]{coastal-clusters.pdf}}
+  \placed{94}{64}{58}{\color{Mist}\smalltext{Color shows K-means clusters. Larger dots indicate more local reports.}}
+  \placed{94}{73}{58}{\color{Mist}\smalltext{95.6\% geocoded. OPTICS checks local density.}}
+  \sourcefooter{Global Shark Attack File · Natural Earth map base}{04}{Mist}{Mist!45!Abyss}
+\end{frame}
+}
+
+\begin{frame}[plain]
+  \sectiontitle{TOURISM AND REPORTED INCIDENTS}{The tourism denominator}
+  \placed{9}{30}{86}{\color{Teal}\eyebrow{MATCHED RECORDS / 1995–2018}}
+  \placed{9}{36}{90}{\color{Ink}\fontsize{9.7}{12}\selectfont
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lrr@{}}
+      \toprule
+      Country or territory & Reports & Reports / 1M arrivals\\
+      \midrule
+      United States & 1,180 & 0.39\\
+      Australia & 433 & 3.14\\
+      \textbf{New Caledonia} & \textbf{31} & \textbf{18.31}\\
+      \bottomrule
+    \end{tabular}}
+  \placed{101}{34}{50}{\color{Teal}\metric{0.60}}
+  \placed{101}{50}{48}{\color{Ink}\bodytext{Pearson correlation between reports and arrivals}}
+  \placed{101}{63}{48}{\color{Muted}\smalltext{355 matched country-years}}
+  \placed{9}{69}{94}{\color{Muted}\smalltext{The join excludes years without recorded incidents or arrival data. Incident reports include residents and visitors.}}
+  \sourcefooter{Global Shark Attack File · World Bank ST.INT.ARVL}{05}{Muted}{Rule}
 \end{frame}
 
-\begin{frame}[t]{The ranking changes after accounting for arrivals}
-  \labeltext{Matched incident and tourism records, 1995–2018}\par
-  \vspace{3mm}
-  \begin{tabular}{@{}lrr@{}}
-    \toprule
-    Country or territory & Reported incidents & Incidents / 1M arrivals \\
-    \midrule
-    United States & 1,180 & 0.39 \\
-    Australia & 433 & 3.14 \\
-    New Caledonia & 31 & 18.31 \\
-    \bottomrule
-  \end{tabular}\par
-  \vspace{5mm}
-  Across 355 matched country-years, arrivals and incident counts had a Pearson correlation of \(r=0.60\).\par
-  \medskip
-  \details{The join omits years with no recorded incident and years without tourism data. Arrivals measure tourism volume. The incident records include residents and visitors.}
+{
+\setbeamercolor{background canvas}{bg=Abyss}
+\begin{frame}[plain]
+  \placed{9}{8}{142}{\color{Seafoam}\eyebrow{LIVE DEMO / PLOTLY DASH}}
+  \placed{9}{17}{142}{\color{Paper}\displaytitle{Explore the reports by coast}}
+  \divider{9}{30}{142}{Mist!45!Abyss}
+  \placed{9}{37}{67}{\color{Paper}\bodytext{\textbf{Local summer is the peak season in the regions studied.}}}
+  \placed{9}{53}{69}{\color{Mist}\bodytext{Reporting coverage, approximate locations and missing exposure data limit comparisons.}}
+  \placed{91}{37}{60}{\color{Seafoam}\eyebrow{DASHBOARD WALKTHROUGH}}
+  \placed{91}{44}{60}{\color{Paper}\bodytext{Filter by year, country and activity.}}
+  \placed{91}{52}{60}{\color{Paper}\bodytext{Inspect the filtered coastal map.}}
+  \placed{91}{61}{60}{\color{Paper}\bodytext{Compare peaks in the temporal tab.}}
+  \sourcefooter{\href{https://github.com/groupe-dia3-ml/programming-for-data-science}{Project repository} · Laurent\_notebook.ipynb · Laurent\_dashboard.html}{06}{Mist}{Mist!45!Abyss}
 \end{frame}
-
-\begin{frame}[t]{Dashboard demo}
-  \labeltext{See how the pattern changes with the filters}\par
-  \medskip
-  Filter by year, country and activity to update the counts and coastal map. Open the temporal tab to compare seasonal peaks.\par
-  \vspace{6mm}
-  \labeltext{Interpret the results in context}\par
-  \medskip
-  Reports peak in local summer in the studied regions. Reporting coverage, approximate coordinates and missing exposure data limit comparisons.\par
-  \vspace{6mm}
-  \details{\href{https://github.com/groupe-dia3-ml/programming-for-data-science}{Project repository} · Laurent\_notebook.ipynb · Laurent\_dashboard.html}
-\end{frame}
+}
 
 \end{document}
