@@ -92,6 +92,6 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Owner:** Louis Le Forestier (`projet/src/dashboard.py`)
 - **Mandatory Header Elements:**
   - Project title and both dataset titles (`Global Shark Attack (GSAF)` + `World Bank International Tourism (ST.INT.ARVL)`).
-  - Full names of all 4 team members (`Maxime Laurent`, `Louis Le Forestier`, `Baptiste Noailhac`, `Romain Thepaut`).
+  - Full names of all 6 team members (`Maxime Laurent`, `Louis Le Forestier`, `Baptiste Noailhac`, `Romain Thepaut`, `Fabien Ramel`, `Rayan Iguercha`).
 - **Layout:** 5 clean tabs (`dcc.Tabs`) matching the 4 queries + Tourism Bonus, with interactive filters (year slider, country selector, activity filter).
-- **Static Proof Export:** `export_dashboard_html()` saves `rendu/Laurent_dashboard.html` so the instructor has offline proof of all charts (`-2 pts` penalty protection).
+- **Static Proof Export:** `export_dashboard_html()` saves `rendu/dashboard.html` so the instructor has offline proof of all charts (`-2 pts` penalty protection).

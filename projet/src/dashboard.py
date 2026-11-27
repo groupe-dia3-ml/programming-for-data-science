@@ -20,10 +20,12 @@ DATASET_NAMES = (
     "External Bonus: International Tourism Arrivals (World Bank ST.INT.ARVL)"
 )
 TEAM_MEMBERS = [
-    "Maxime Laurent (Team Leader)",
+    "Maxime Laurent",
     "Louis Le Forestier",
     "Baptiste Noailhac",
     "Romain Thepaut",
+    "Fabien Ramel",
+    "Rayan Iguercha",
 ]
 
 
@@ -96,7 +98,7 @@ def create_dash_app(figures_dict=None, kpis=None, clean_sharks=None, geo_df=None
         top_countries = ["United States", "Australia", "South Africa"]
         activities = ["Surfing", "Swimming", "Diving/Snorkeling"]
 
-    # Mandatory Header Card (Dataset names + all 4 team members)
+    # Mandatory Header Card (Dataset names + all 6 team members)
     header = dbc.Row(
         dbc.Col(
             html.Div(
