@@ -4,7 +4,7 @@ This document defines every data cleaning step, analytical indicator, visualizat
 
 ---
 
-## 1. EDA & Preprocessing (`01_eda_and_cleaning_todo.ipynb` / `src/data_loader.py`)
+## 1. EDA & Preprocessing (`01_eda_and_cleaning.ipynb` / `src/data_loader.py`)
 
 ### Mandatory EDA Outputs `[2 pts]`
 For both datasets (`attacks.csv` and `tourism_arrivals.csv`), `summarize_dataset()` must output:
@@ -40,7 +40,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 > Every indicator below **must** have its own Markdown cell explaining: (1) how it is calculated, (2) what it represents, and (3) how to interpret it. Missing an explanation incurs a **-2 points penalty**.
 
 ### Query 1 — Grouping & Aggregation `[1 pt]`
-- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori_todo.ipynb`)
+- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori.ipynb`)
 - **Calculations:**
   - Total attack counts and share (%) for the **Top 10 Countries**.
   - Attack count and **Fatality Rate (`Fatal %`)** by `Activity_group`.
@@ -48,7 +48,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Plotly horizontal bar chart (Top 10 Countries) and grouped/colored bar chart (Attacks & Fatality Rate by Activity).
 
 ### Query 2 — Frequent Pattern Mining (`Apriori`) `[2 pts]`
-- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori_todo.ipynb`)
+- **Owner:** Baptiste Noailhac (`02_grouping_and_apriori.ipynb`)
 - **Course reference:** Lab 9 (`mlxtend.frequent_patterns.apriori` & `association_rules`).
 - **Calculations:**
   - Build a boolean one-hot transaction table from discretized attributes (`Country_top`, `Activity_group`, `Type`, `Season`, `Time_of_day`, `Fatal`).
@@ -57,7 +57,7 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Support sensitivity curve + Plotly scatter plot (`support` vs. `confidence`, colored by `lift`, with rule labels on hover).
 
 ### Query 3 — Temporal Dynamics & Forecasting (`Prophet`) `[2 pts]`
-- **Owner:** Romain Thepaut (`03_temporal_forecasting_todo.ipynb`)
+- **Owner:** Romain Thepaut (`03_temporal_forecasting.ipynb`)
 - **Course reference:** Lab 7 (`prophet.Prophet`, `plot_plotly`, `plot_components_plotly`).
 - **Calculations:**
   - Aggregate monthly/annual shark attack counts from 1960 to the last complete year (`ds`, `y`).
@@ -66,27 +66,24 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Visualizations:** Hemisphere seasonality comparison plot + Prophet interactive forecast plot with uncertainty intervals and trend changepoints.
 
 ### Query 4 — Spatial Analysis & Hotspot Clustering (`GeoPandas` + `OPTICS` / `K-Means`) `[2 pts]`
-- **Owner:** Louis Le Forestier (`04_spatial_clustering_todo.ipynb`)
+- **Owner:** Louis Le Forestier (`04_spatial_clustering.ipynb`)
 - **Course reference:** Lab 8 (`geopandas`, `shapely.geometry.Point`, `sjoin`, `sklearn.cluster.OPTICS`, `KMeans`).
 - **Calculations:**
   - Geocode unique `(Area, Country)` coastal zones into `projet/data/locations_geocoded.csv`.
   - Build a `GeoDataFrame` (`EPSG:4326`) and perform spatial join with `ne_110m_admin_0_countries.shp`.
+  - Exclude country-only centroids from the clustering sample and report the separate area-level coverage.
   - Apply **K-Means** (`n_clusters=6`, `random_state=42`) and **OPTICS** on `[['latitude', 'longitude']]` to detect major global coastal hotspots (US East Coast / Florida, Hawaii, East Australia, West Australia, South Africa, Brazil/Caribbean).
   - Summarize each cluster (attack count, dominant activity, fatality rate).
 - **Visualizations:** Interactive Plotly `scatter_geo` world map colored by spatial cluster with hover details.
 
 ---
 
-## 3. External Dataset Bonus — Tourism Risk Correlation `[+1 pt]`
+## 3. External Dataset Bonus — Reported Incidents and Tourism Arrivals
 
-- **Owner:** Romain Thepaut (`05_tourism_bonus_todo.ipynb`)
-- **Join:** Inner join on `(Country_clean, Year)` across **1995-2020** (26 overlapping years).
-- **Calculations:**
-  - Tourism-normalized risk indicator:
-    `attacks_per_1M_tourists = (annual_attacks / annual_arrivals) * 1_000_000`
-  - Global and per-country **Pearson** and **Spearman** correlation between annual tourist arrivals and annual shark attacks.
-  - Comparative ranking of top affected coastal countries: **Raw Attack Count** vs. **Attacks per 1 Million Tourists** (distinguishing sheer volume from relative risk).
-- **Visualizations:** Dual-axis time-series chart (attacks vs. tourist arrivals) + side-by-side ranking bar chart.
+- **Owner** — Romain Thepaut (`05_tourism_bonus.ipynb`).
+- **Panel** — Match geographies with incident reports and positive arrival data. Retain their complete years from 1995 through 2017, counting zero reports in years without a matching incident. The GSAF snapshot ends in June 2018.
+- **Comparison** — Divide reports by arrivals and scale by one million. Sum both measures over the same panel for each geography. The charts compare the eight geographies with the most reports.
+- **Correlation** — Calculate descriptive Pearson and Spearman correlations across the pooled country-year panel. Incident reports include residents and visitors, and reporting coverage varies.
 
 ---
 

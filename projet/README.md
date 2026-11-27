@@ -16,13 +16,13 @@ projet/
 ├── data/                        # Local-only datasets (ignored by Git - see ../doc/DATA_SETUP.md)
 │   ├── .gitkeep
 │   └── README.md
-├── notebooks/                   # Working notebooks with structured TODOs
-│   ├── 01_eda_and_cleaning_todo.ipynb
-│   ├── 02_grouping_and_apriori_todo.ipynb
-│   ├── 03_temporal_forecasting_todo.ipynb
-│   ├── 04_spatial_clustering_todo.ipynb
-│   └── 05_tourism_bonus_todo.ipynb
-├── src/                         # Shared reusable Python modules (TODO skeletons)
+├── notebooks/                   # Completed and executed working notebooks
+│   ├── 01_eda_and_cleaning.ipynb
+│   ├── 02_grouping_and_apriori.ipynb
+│   ├── 03_temporal_forecasting.ipynb
+│   ├── 04_spatial_clustering.ipynb
+│   └── 05_tourism_bonus.ipynb
+├── src/                         # Shared reusable Python modules
 │   ├── __init__.py
 │   ├── data_loader.py
 │   ├── indicators.py
