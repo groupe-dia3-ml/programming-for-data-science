@@ -70,7 +70,7 @@ python -c "import requests, zipfile, io, os; os.makedirs('projet/data', exist_ok
    - Alternatively, download the 110m Admin 0 Countries shapefile from Natural Earth (`https://www.naturalearthdata.com/downloads/110m-cultural-vectors/`).
 2. **Geocoded Coastal Zones (`projet/data/locations_geocoded.csv`):**
    - The raw GSAF dataset stores `Country`, `Area`, and `Location` as text without raw `latitude`/`longitude` columns.
-   - Running the geocoding cell once in `projet/notebooks/04_spatial_clustering.ipynb` queries OpenStreetMap Nominatim for unique `(Area, Country)` pairs and saves `projet/data/locations_geocoded.csv` locally so every subsequent run is instant and offline.
+   - The geocoding cell assigns coastal area coordinates from a local lookup and caches them. It reuses matching pairs, looks up newly encountered pairs, and records country-only fallbacks separately from area coordinates.
 
 ---
 
@@ -83,3 +83,5 @@ python -c "import os; files = ['projet/data/attacks.csv', 'projet/data/tourism_a
 ```
 
 Both entries should return `True` before you start coding the notebooks.
+
+The offline HTML proof embeds Plotly and the [Plotly world 110m basemap](https://cdn.plot.ly/un/world_110m.json). The repository includes the basemap asset. For standalone notebook generation, place it under `data/world_110m.json` or allow the notebook to download it once.

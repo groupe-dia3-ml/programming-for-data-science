@@ -20,7 +20,7 @@ The cover illustration and vector map are in `assets/`. The map uses the coastal
 | **2** | KDD Pipeline & Data Cleaning | 0:45 | Dataset dimensions, missing values, dropped columns justification, country normalization, and coastal geocoding. |
 | **3** | Queries 1 & 2 (Grouping & Apriori) | 1:00 | Top countries, fatality rate by activity/species, and strongest `Apriori` association rules (support, confidence, lift). |
 | **4** | Queries 3 & 4 (Forecast & Spatial) | 1:00 | Northern vs. Southern hemisphere seasonality, `Prophet` 5-year forecast, and `OPTICS` / `K-Means` coastal hotspot clusters. |
-| **5** | External Dataset Bonus (Tourism) | 1:00 | Raw attack count vs. **Incidents per 1M arrivals** (1995–2018) and the correlation across matched country-years. |
+| **5** | External Dataset Bonus (Tourism) | 1:00 | Raw attack count vs. **Incidents per 1M arrivals** (1995–2017) and the correlation across matched country-years. |
 | **6** | Conclusion & Demo Transition | 0:30 | Key takeaways, data limitations (reporting bias, missing territories), and live transition to `Laurent_notebook.ipynb` and Dash. |
 
 ## Important Reminder

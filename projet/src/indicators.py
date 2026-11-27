@@ -471,16 +471,21 @@ COUNTRY_COASTAL_CENTROIDS = {
 # Input: shark_df (pd.DataFrame), cache_path (str or None), force_refresh (bool)
 # Output: DataFrame with columns ['Country_clean', 'Area_clean', 'latitude', 'longitude', 'geo_precision']
 def geocode_coastal_areas(shark_df, cache_path=None, force_refresh=False):
-    if cache_path and os.path.exists(cache_path) and not force_refresh:
-        cached = pd.read_csv(cache_path)
-        if "geo_precision" in cached.columns and len(cached) > 100:
-            return cached
-
-    unique_pairs = shark_df[["Country_clean", "Area_clean"]].drop_duplicates().copy()
+    keys = ["Country_clean", "Area_clean"]
+    columns = keys + ["latitude", "longitude", "geo_precision"]
+    unique_pairs = shark_df[keys].drop_duplicates()
     geo_rows = []
-    for _, row in unique_pairs.iterrows():
-        country = row["Country_clean"]
-        area = row["Area_clean"]
+    if cache_path and os.path.exists(cache_path) and not force_refresh:
+        cached = pd.read_csv(cache_path, dtype={key: str for key in keys})
+        if set(columns).issubset(cached.columns):
+            matching = unique_pairs.merge(cached[columns].drop_duplicates(keys), on=keys)
+            geo_rows = matching.to_dict("records")
+            found = set(matching[keys].itertuples(index=False, name=None))
+            unique_pairs = unique_pairs.loc[
+                [pair not in found for pair in unique_pairs.itertuples(index=False, name=None)]
+            ]
+
+    for country, area in unique_pairs.itertuples(index=False, name=None):
         if (country, area) in COASTAL_AREA_COORDINATES:
             lat, lon = COASTAL_AREA_COORDINATES[(country, area)]
             geo_rows.append({
@@ -500,7 +505,7 @@ def geocode_coastal_areas(shark_df, cache_path=None, force_refresh=False):
                 "geo_precision": "country_centroid",
             })
 
-    geo_df = pd.DataFrame(geo_rows)
+    geo_df = pd.DataFrame(geo_rows, columns=columns)
     if cache_path:
         dir_name = os.path.dirname(cache_path)
         if dir_name:
@@ -537,8 +542,14 @@ def label_spatial_cluster(cluster_subset):
 # Input: shark_df (pd.DataFrame), geo_df (pd.DataFrame), shp_path (str or None), n_clusters (int)
 # Output: dictionary with clustered GeoDataFrame, K-Means & OPTICS summaries, and Plotly world maps
 def query_spatial_clustering(shark_df, geo_df, shp_path=None, n_clusters=6):
-    merged_geo = pd.merge(shark_df, geo_df, on=["Country_clean", "Area_clean"], how="inner").copy()
-    coverage_pct = round((len(merged_geo) / len(shark_df)) * 100, 2) if len(shark_df) > 0 else 0.0
+    keys = ["Country_clean", "Area_clean"]
+    merged_geo = shark_df.merge(geo_df, on=keys, how="inner", validate="many_to_one")
+    country_centroid_count = int(merged_geo["geo_precision"].eq("country_centroid").sum())
+    merged_geo = merged_geo.loc[merged_geo["geo_precision"].eq("area")].copy()
+    area_count = len(merged_geo)
+    coverage_pct = round(100 * area_count / len(shark_df), 2) if len(shark_df) else 0.0
+    if area_count < 2:
+        raise ValueError("Spatial clustering requires at least two area-level incident locations.")
 
     # 1. Build GeoDataFrame (Lab 8 pattern)
     geometry = [Point(lon, lat) for lon, lat in zip(merged_geo["longitude"], merged_geo["latitude"])]
@@ -557,14 +568,15 @@ def query_spatial_clustering(shark_df, geo_df, shp_path=None, n_clusters=6):
         if cont_col:
             world = world.rename(columns={cont_col: "shp_continent"})
         gdf = gpd.sjoin(gdf, world, how="left", predicate="intersects")
-        gdf = gdf.drop(columns=["index_right"], errors="ignore")
+        gdf = gdf.loc[~gdf.index.duplicated()].drop(columns=["index_right"], errors="ignore")
         if "shp_admin" in gdf.columns:
             sjoin_matched = int(gdf["shp_admin"].notna().sum())
 
     coords = gdf[["latitude", "longitude"]].values
 
     # 3. K-Means spatial clustering with dynamic centroid-based cluster labeling
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+    cluster_count = min(n_clusters, len(np.unique(coords, axis=0)))
+    kmeans = KMeans(n_clusters=cluster_count, random_state=42, n_init=10)
     gdf["kmeans_cluster"] = kmeans.fit_predict(coords)
 
     dynamic_labels = {}
@@ -574,7 +586,7 @@ def query_spatial_clustering(shark_df, geo_df, shp_path=None, n_clusters=6):
     gdf["Cluster_Name"] = gdf["kmeans_cluster"].map(dynamic_labels)
 
     # 4. OPTICS density-based spatial clustering (Lab 8 comparison)
-    optics = OPTICS(min_samples=25, xi=0.05, min_cluster_size=0.04)
+    optics = OPTICS(min_samples=min(25, area_count), xi=0.05, min_cluster_size=0.04)
     gdf["optics_cluster"] = optics.fit_predict(coords)
     gdf["OPTICS_Label"] = gdf["optics_cluster"].apply(
         lambda c: "Noise / Isolated Coast (-1)" if c == -1 else f"Dense Hotspot #{c}"
@@ -625,7 +637,7 @@ def query_spatial_clustering(shark_df, geo_df, shp_path=None, n_clusters=6):
             "latitude": False,
             "longitude": False,
         },
-        title=f"Global Shark Attack Coastal Hotspots — K-Means Clusters (k={n_clusters}, {coverage_pct}% coverage)",
+        title=f"Coastal incident clusters (K-means k={cluster_count}, {coverage_pct}% area coverage)",
         projection="natural earth",
     )
     fig_map.update_geos(showcoastlines=True, coastlinecolor="#94A3B8", showland=True, landcolor="#F1F5F9")
@@ -652,6 +664,8 @@ def query_spatial_clustering(shark_df, geo_df, shp_path=None, n_clusters=6):
     return {
         "geo_df": gdf,
         "coverage_pct": coverage_pct,
+        "area_count": area_count,
+        "country_centroid_count": country_centroid_count,
         "sjoin_matched": sjoin_matched,
         "cluster_summary": cluster_summary,
         "optics_summary": optics_summary,
@@ -666,11 +680,13 @@ def query_spatial_clustering(shark_df, geo_df, shp_path=None, n_clusters=6):
 # External Bonus Query: World Bank Tourism Correlation [+1 point] — Owner: Romain Thepaut
 # ==============================================================================
 
-# Function for computing tourism-adjusted shark attack rates and correlations (1995-2020)
+# Function for comparing reported incidents per million arrivals and their descriptive correlations
 # Input: merged_df (pd.DataFrame) from clean_and_merge_tourism()
 # Output: dictionary with enriched DataFrame, correlations, country ranking, and Plotly figures
 def query_tourism_enrichment(merged_df):
     df_bonus = merged_df.copy()
+    start_year, end_year = df_bonus["Year"].min(), df_bonus["Year"].max()
+    period = f"{start_year}–{end_year}"
 
     # 1. Compute Shark Attacks per 1 Million International Tourists
     df_bonus["attacks_per_1M_tourists"] = (
@@ -681,7 +697,7 @@ def query_tourism_enrichment(merged_df):
     p_corr, p_val = pearsonr(df_bonus["Arrivals"], df_bonus["annual_attacks"])
     s_corr, s_val = spearmanr(df_bonus["Arrivals"], df_bonus["annual_attacks"])
 
-    # 3. Country-level comparison for Top 8 coastal countries by attack volume (1995-2018)
+    # 3. Compare the eight countries and territories with the most reports
     country_comparison = df_bonus.groupby("Country_clean").agg(
         Years_Observed=("Year", "nunique"),
         Total_Attacks=("annual_attacks", "sum"),
@@ -700,8 +716,8 @@ def query_tourism_enrichment(merged_df):
         rows=1,
         cols=2,
         subplot_titles=(
-            "Raw Volume: Total Shark Attacks (1995-2018)",
-            "Tourism-Normalized Risk: Attacks per 1M Tourists",
+            f"Reported incidents ({period})",
+            "Reported incidents per million arrivals",
         ),
     )
     fig_comparison.add_trace(
@@ -719,7 +735,7 @@ def query_tourism_enrichment(merged_df):
         go.Bar(
             x=by_risk["Country_clean"],
             y=by_risk["attacks_per_1M_tourists"],
-            name="Attacks / 1M Tourists",
+            name="Reports / 1M Arrivals",
             marker_color="#DC2626",
             text=by_risk["attacks_per_1M_tourists"],
             textposition="outside",
@@ -727,12 +743,12 @@ def query_tourism_enrichment(merged_df):
         row=1, col=2,
     )
     fig_comparison.update_layout(
-        title="Raw Incident Volume vs. Tourism-Adjusted Risk Rate (World Bank ST.INT.ARVL)",
+        title="Reported incidents and arrivals (World Bank ST.INT.ARVL)",
         template="plotly_white",
         showlegend=False,
     )
 
-    # 5. Dual-Axis Time Series for United States (1995-2018)
+    # 5. Dual-axis time series for the United States
     us_data = df_bonus[df_bonus["Country_clean"] == "United States"].sort_values("Year")
     fig_dual_axis = go.Figure()
     fig_dual_axis.add_trace(go.Scatter(
@@ -751,7 +767,7 @@ def query_tourism_enrichment(merged_df):
         yaxis="y2",
     ))
     fig_dual_axis.update_layout(
-        title="United States: Annual Shark Attacks vs. Inbound Tourist Arrivals (1995-2018)",
+        title=f"United States: annual incident reports and arrivals ({period})",
         xaxis=dict(title="Year"),
         yaxis=dict(title=dict(text="Annual Attacks", font=dict(color="#0F172A"))),
         yaxis2=dict(
