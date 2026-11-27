@@ -3,7 +3,6 @@
 # Bonus dataset: International tourism, number of arrivals (World Bank ST.INT.ARVL)
 
 import io
-import os
 import re
 import zipfile
 from pathlib import Path
@@ -357,39 +356,39 @@ def clean_shark_data(df):
     return cleaned.reset_index(drop=True)
 
 
-# Function for reshaping tourism data and merging it with annual shark attack counts
-# Input: shark_df (pd.DataFrame) cleaned shark data, tourism_df (pd.DataFrame) raw World Bank data
-# Output: merged DataFrame on (Country_clean, Year) covering 1995-2020 with annual attacks and arrivals
-def clean_and_merge_tourism(shark_df, tourism_df):
+# Function for building a country-year panel of arrivals and reported incidents
+# Input: cleaned incidents, raw World Bank CSV, and the last complete year of the GSAF snapshot
+# Output: complete-year panel with positive arrivals and zero-filled reported incident counts
+def clean_and_merge_tourism(shark_df, tourism_df, last_complete_year=2017):
     id_vars = ["Country Name", "Country Code", "Indicator Name", "Indicator Code"]
-    year_cols = [c for c in tourism_df.columns if c.isdigit()]
+    year_cols = [column for column in tourism_df.columns if column.isdigit()]
+    start_year = max(1995, shark_df["Year"].min())
+    end_year = min(last_complete_year, shark_df["Year"].max())
 
-    # Reshape World Bank wide table into tidy long format
-    tourism_long = pd.melt(
-        tourism_df,
-        id_vars=id_vars,
-        value_vars=year_cols,
-        var_name="Year",
-        value_name="Arrivals",
+    tourism = tourism_df.melt(
+        id_vars=id_vars, value_vars=year_cols, var_name="Year", value_name="Arrivals"
     )
-    tourism_long["Year"] = pd.to_numeric(tourism_long["Year"], errors="coerce")
-    tourism_long["Arrivals"] = pd.to_numeric(tourism_long["Arrivals"], errors="coerce")
-    tourism_long = tourism_long.dropna(subset=["Arrivals", "Year"]).copy()
-    tourism_long["Year"] = tourism_long["Year"].astype(int)
-    tourism_long = tourism_long[(tourism_long["Year"] >= 1995) & (tourism_long["Year"] <= 2020)].copy()
-    tourism_long["Country_clean"] = tourism_long["Country Name"].astype(str).str.strip()
+    tourism["Year"] = tourism["Year"].astype(int)
+    tourism["Arrivals"] = pd.to_numeric(tourism["Arrivals"], errors="coerce")
+    tourism = tourism.loc[
+        tourism["Year"].between(start_year, end_year) & tourism["Arrivals"].gt(0),
+        ["Country Name", "Country Code", "Year", "Arrivals"],
+    ].rename(columns={"Country Name": "Country_clean"})
+    tourism["Country_clean"] = tourism["Country_clean"].str.strip()
 
-    # Aggregate shark attacks per Country and Year
-    shark_agg = shark_df.groupby(["Country_clean", "Year"]).agg(
-        annual_attacks=("Case Number", "count"),
-        fatal_attacks=("Fatal_clean", lambda s: (s == "Y").sum()),
-    ).reset_index()
-
-    # Inner join on harmonized Country_clean and Year
-    merged = pd.merge(
-        tourism_long[["Country_clean", "Country Code", "Year", "Arrivals"]],
-        shark_agg,
-        on=["Country_clean", "Year"],
-        how="inner",
+    keys = ["Country_clean", "Year"]
+    incident_counts = (
+        shark_df.loc[shark_df["Year"].between(start_year, end_year)]
+        .groupby(keys, as_index=False)
+        .agg(
+            annual_attacks=("Case Number", "size"),
+            fatal_attacks=("Fatal_clean", lambda outcomes: outcomes.eq("Y").sum()),
+        )
     )
-    return merged.sort_values(by=["Country_clean", "Year"]).reset_index(drop=True)
+    eligible_countries = tourism[keys].merge(incident_counts[keys], on=keys)["Country_clean"]
+    panel = tourism.loc[tourism["Country_clean"].isin(eligible_countries)].merge(
+        incident_counts, on=keys, how="left", validate="one_to_one"
+    )
+    counts = ["annual_attacks", "fatal_attacks"]
+    panel[counts] = panel[counts].fillna(0).astype(int)
+    return panel.sort_values(keys).reset_index(drop=True)

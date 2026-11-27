@@ -85,7 +85,7 @@
   \placed{82}{45}{69}{\color{Ink}\bodytext{\textbf{Where} \quad Country and coastal area}}
   \divider{82}{53}{69}{Rule}
   \placed{82}{57}{69}{\color{Ink}\bodytext{\textbf{What} \quad Activity, species and outcome}}
-  \placed{82}{68}{69}{\color{Muted}\smalltext{Coastal coordinates were assigned by area.}}
+  \placed{82}{68}{69}{\color{Muted}\smalltext{Clustering uses area-level coastal coordinates.}}
   \sourcefooter{Global Shark Attack File · Cleaned snapshot}{02}{Muted}{Rule}
 \end{frame}
 
@@ -138,29 +138,29 @@
   \placed{94}{29}{57}{\color{Paper}\bodytext{\textbf{Six coastal clusters}}}
   \placed{93}{37}{58}{\includegraphics[width=58mm]{coastal-clusters.pdf}}
   \placed{94}{64}{58}{\color{Mist}\smalltext{Color shows K-means clusters. Larger dots indicate more local reports.}}
-  \placed{94}{73}{58}{\color{Mist}\smalltext{95.6\% geocoded. OPTICS checks local density.}}
+  \placed{94}{73}{58}{\color{Mist}\smalltext{76.0\% at area level. 790 country-only reports excluded.}}
   \sourcefooter{Global Shark Attack File · Natural Earth map base}{04}{Mist}{Mist!45!Abyss}
 \end{frame}
 }
 
 \begin{frame}[plain]
   \sectiontitle{TOURISM AND REPORTED INCIDENTS}{The tourism denominator}
-  \placed{9}{30}{86}{\color{Teal}\eyebrow{MATCHED RECORDS / 1995–2018}}
+  \placed{9}{30}{86}{\color{Teal}\eyebrow{COMPLETE YEARS / 1995–2017}}
   \placed{9}{36}{90}{\color{Ink}\fontsize{9.7}{12}\selectfont
     \renewcommand{\arraystretch}{1.2}
     \begin{tabular}{@{}lrr@{}}
       \toprule
       Country or territory & Reports & Reports / 1M arrivals\\
       \midrule
-      United States & 1,180 & 0.39\\
-      Australia & 433 & 3.14\\
-      \textbf{New Caledonia} & \textbf{31} & \textbf{18.31}\\
+      United States & 1,170 & 0.41\\
+      Australia & 410 & 3.19\\
+      \textbf{New Caledonia} & \textbf{29} & \textbf{12.09}\\
       \bottomrule
     \end{tabular}}
-  \placed{101}{34}{50}{\color{Teal}\metric{0.60}}
+  \placed{101}{34}{50}{\color{Teal}\metric{0.38}}
   \placed{101}{50}{48}{\color{Ink}\bodytext{Pearson correlation between reports and arrivals}}
-  \placed{101}{63}{48}{\color{Muted}\smalltext{355 matched country-years}}
-  \placed{9}{69}{94}{\color{Muted}\smalltext{The join excludes years without recorded incidents or arrival data. Incident reports include residents and visitors.}}
+  \placed{101}{63}{48}{\color{Muted}\smalltext{1,365 matched country-years}}
+  \placed{9}{69}{94}{\color{Muted}\smalltext{Full years with known arrivals include years with zero incident reports. Reports cover residents and visitors.}}
   \sourcefooter{Global Shark Attack File · World Bank ST.INT.ARVL}{05}{Muted}{Rule}
 \end{frame}
 

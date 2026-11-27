@@ -2,17 +2,19 @@
 # Owner: Louis Le Forestier
 # Displays all 4 analytical queries + External Tourism Bonus, dynamic KPIs, interactive filters, team members, and dataset titles
 
+import base64
 import os
+from pathlib import Path
 import dash
 from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
+import requests
 
 
 # Project metadata (mandatory on the dashboard per Final_project.pdf)
-PROJECT_TITLE = "Global Shark Attacks Analysis & International Tourism Risk"
+PROJECT_TITLE = "Reported Shark Incidents and International Tourism"
 DATASET_NAMES = (
     "Primary: Global Shark Attack (GSAF - Kaggle / sharkattackfile.net) | "
     "External Bonus: International Tourism Arrivals (World Bank ST.INT.ARVL)"
@@ -53,7 +55,7 @@ def compute_dashboard_kpis(clean_sharks, bonus_results):
         "top_country": top_country,
         "top_country_subtitle": f"{top_country_count:,} attacks ({top_country_share} % of total)",
         "highest_risk_label": f"{highest_risk_country} ({highest_risk_rate:.2f})",
-        "highest_risk_subtitle": f"Attacks / 1M tourists (vs US {us_rate:.2f})",
+        "highest_risk_subtitle": f"Reports / 1M arrivals (US {us_rate:.2f})",
         "pearson_r": round(float(bonus_results["pearson_corr"]), 4),
     }
 
@@ -133,7 +135,7 @@ def create_dash_app(figures_dict=None, kpis=None, clean_sharks=None, geo_df=None
                 dbc.Card(
                     dbc.CardBody(
                         [
-                            html.H6("Overall Fatality Rate", className="text-muted"),
+                            html.H6("Reports Recorded as Fatal", className="text-muted"),
                             html.H3(kpis["fatality_rate"], className="text-danger fw-bold"),
                             html.Small(kpis["fatal_subtitle"], className="text-muted"),
                         ]
@@ -159,7 +161,7 @@ def create_dash_app(figures_dict=None, kpis=None, clean_sharks=None, geo_df=None
                 dbc.Card(
                     dbc.CardBody(
                         [
-                            html.H6("Highest Tourism Risk Rate", className="text-muted"),
+                            html.H6("Highest Report Ratio Among Top 8", className="text-muted"),
                             html.H3(kpis["highest_risk_label"], className="text-warning fw-bold"),
                             html.Small(kpis["highest_risk_subtitle"], className="text-muted"),
                         ]
@@ -433,6 +435,27 @@ def create_dash_app(figures_dict=None, kpis=None, clean_sharks=None, geo_df=None
     return app
 
 
+# Function for embedding the world basemap used by the exported geographic figures
+# Input: local project assets or the Plotly world 110m basemap URL
+# Output: a data URL containing the TopoJSON without a runtime network dependency
+def offline_world_basemap_url():
+    relative_asset = Path("projet/src/assets/world_110m.json")
+    candidates = [relative_asset, Path("..") / relative_asset, Path("data/world_110m.json")]
+    if "__file__" in globals():
+        candidates.insert(0, Path(__file__).resolve().parent / "assets/world_110m.json")
+    for candidate in candidates:
+        if candidate.is_file():
+            topojson = candidate.read_bytes()
+            break
+    else:
+        response = requests.get("https://cdn.plot.ly/un/world_110m.json", timeout=30)
+        response.raise_for_status()
+        topojson = response.content
+    encoded = base64.b64encode(topojson).decode("ascii")
+    # Plotly appends a filename to the base URL. Keep it in the ignored fragment.
+    return f"data:application/json;base64,{encoded}#"
+
+
 # Function for exporting all dashboard figures and dynamic KPIs to a standalone offline HTML proof file
 # Input: figures_dict (dict), kpis (dict), output_path (str)
 # Output: output_path (str) of the written HTML file
@@ -452,19 +475,30 @@ def export_dashboard_html(figures_dict, kpis, output_path):
         ("Query 3: Prophet Monthly Decomposition (Trend & Seasonality)", "fig_components"),
         ("Query 4: Global Coastal Hotspots (K-Means + GeoPandas)", "fig_map"),
         ("Query 4: Density-Based Hotspots (OPTICS Comparison)", "fig_optics_map"),
-        ("Bonus (+1 pt): Raw Volume vs. Attacks per 1M Tourists", "fig_comparison"),
+        ("Bonus (+1 pt): Reported Incidents per Million Arrivals", "fig_comparison"),
         ("Bonus (+1 pt): US Dual-Axis Attacks vs. Tourism Arrivals", "fig_dual_axis"),
     ]
 
     figs_html = []
+    basemap_url = None
     for title, key in titles:
         fig = figures_dict.get(key)
         if fig is not None:
+            config = {}
+            if any(trace.type == "scattergeo" for trace in fig.data):
+                if basemap_url is None:
+                    basemap_url = offline_world_basemap_url()
+                fig = go.Figure(fig)
+                fig.update_geos(scope="world", resolution=110)
+                config["topojsonURL"] = basemap_url
+            figure_html = fig.to_html(
+                full_html=False, include_plotlyjs=not figs_html, config=config
+            )
             figs_html.append(
                 f"""
             <div style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                 <h3 style="margin-top:0; color:#0F172A; font-size:18px;">{title}</h3>
-                {fig.to_html(full_html=False, include_plotlyjs='cdn')}
+                {figure_html}
             </div>
             """
             )
@@ -499,7 +533,7 @@ def export_dashboard_html(figures_dict, kpis, output_path):
             <small style="color:#64748B;">{kpis['year_window']}</small>
         </div>
         <div class="kpi-card">
-            <div class="kpi-title">Overall Fatality Rate</div>
+            <div class="kpi-title">Reports Recorded as Fatal</div>
             <div class="kpi-val" style="color:#DC2626;">{kpis['fatality_rate']}</div>
             <small style="color:#64748B;">{kpis['fatal_subtitle']}</small>
         </div>
@@ -509,7 +543,7 @@ def export_dashboard_html(figures_dict, kpis, output_path):
             <small style="color:#64748B;">{kpis['top_country_subtitle']}</small>
         </div>
         <div class="kpi-card">
-            <div class="kpi-title">Highest Tourism Risk Rate</div>
+            <div class="kpi-title">Highest Report Ratio Among Top 8</div>
             <div class="kpi-val" style="color:#D97706;">{kpis['highest_risk_label']}</div>
             <small style="color:#64748B;">{kpis['highest_risk_subtitle']}</small>
         </div>

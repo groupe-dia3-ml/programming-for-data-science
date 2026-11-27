@@ -12,7 +12,7 @@ Per [`projet/Final_project.pdf`](../projet/Final_project.pdf) (Section 5), deliv
 | --- | :---: | :---: | --- |
 | `Laurent_notebook.ipynb` | Mandatory | Completed & executed (self-contained) | Complete KDD notebook (header with 4 team members + GitHub link, modular documented functions, Markdown explanations for every indicator, single `if __name__ == "__main__":` block). |
 | [`Laurent_slides.pdf`](Laurent_slides.pdf) | Mandatory | Ready | 5-minute slide deck exported to PDF (see [`projet/slides/README.md`](../projet/slides/README.md)). |
-| `Laurent_dashboard.html` (or `.pdf`) | Strongly recommended | Generated (offline HTML proof ready) | Offline visual proof of the working Plotly Dash dashboard (prevents `-2 pts` penalty). |
+| `Laurent_dashboard.html` (or `.pdf`) | Strongly recommended | Generated (offline HTML proof ready) | Self-contained HTML proof with all 12 plots and their world basemap. |
 
 ---
 

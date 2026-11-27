@@ -71,22 +71,19 @@ Every dropped column or filter must be justified in a Markdown cell:
 - **Calculations:**
   - Geocode unique `(Area, Country)` coastal zones into `projet/data/locations_geocoded.csv`.
   - Build a `GeoDataFrame` (`EPSG:4326`) and perform spatial join with `ne_110m_admin_0_countries.shp`.
+  - Exclude country-only centroids from the clustering sample and report the separate area-level coverage.
   - Apply **K-Means** (`n_clusters=6`, `random_state=42`) and **OPTICS** on `[['latitude', 'longitude']]` to detect major global coastal hotspots (US East Coast / Florida, Hawaii, East Australia, West Australia, South Africa, Brazil/Caribbean).
   - Summarize each cluster (attack count, dominant activity, fatality rate).
 - **Visualizations:** Interactive Plotly `scatter_geo` world map colored by spatial cluster with hover details.
 
 ---
 
-## 3. External Dataset Bonus — Tourism Risk Correlation `[+1 pt]`
+## 3. External Dataset Bonus — Reported Incidents and Tourism Arrivals
 
-- **Owner:** Romain Thepaut (`05_tourism_bonus.ipynb`)
-- **Join:** Inner join on `(Country_clean, Year)` across **1995-2020** (26 overlapping years).
-- **Calculations:**
-  - Tourism-normalized risk indicator:
-    `attacks_per_1M_tourists = (annual_attacks / annual_arrivals) * 1_000_000`
-  - Global and per-country **Pearson** and **Spearman** correlation between annual tourist arrivals and annual shark attacks.
-  - Comparative ranking of top affected coastal countries: **Raw Attack Count** vs. **Attacks per 1 Million Tourists** (distinguishing sheer volume from relative risk).
-- **Visualizations:** Dual-axis time-series chart (attacks vs. tourist arrivals) + side-by-side ranking bar chart.
+- **Owner** — Romain Thepaut (`05_tourism_bonus.ipynb`).
+- **Panel** — Match geographies with incident reports and positive arrival data. Retain their complete years from 1995 through 2017, counting zero reports in years without a matching incident. The GSAF snapshot ends in June 2018.
+- **Comparison** — Divide reports by arrivals and scale by one million. Sum both measures over the same panel for each geography. The charts compare the eight geographies with the most reports.
+- **Correlation** — Calculate descriptive Pearson and Spearman correlations across the pooled country-year panel. Incident reports include residents and visitors, and reporting coverage varies.
 
 ---
 
