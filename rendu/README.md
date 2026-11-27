@@ -1,28 +1,26 @@
 # Final Deliverables Folder (`rendu/`)
 
-This folder holds the **official deliverables** to upload to **DVLC** by the Team Leader (**Maxime Laurent**) before the last lab session.
+This folder holds the **official team deliverables** to upload to **DVLC** before the last lab session.
 
 ---
 
-## Required Files & Exact Naming Convention
-
-Per [`projet/Final_project.pdf`](../projet/Final_project.pdf) (Section 5), deliverables must use the Team Leader's family name (`Laurent`):
+## Required Files
 
 | File | Required | Status | Description |
 | --- | :---: | :---: | --- |
-| `Laurent_notebook.ipynb` | Mandatory | Completed & executed (self-contained) | Complete KDD notebook (header with 4 team members + GitHub link, modular documented functions, Markdown explanations for every indicator, single `if __name__ == "__main__":` block). |
-| [`Laurent_slides.pdf`](Laurent_slides.pdf) | Mandatory | Ready | 5-minute slide deck exported to PDF (see [`projet/slides/README.md`](../projet/slides/README.md)). |
-| `Laurent_dashboard.html` (or `.pdf`) | Strongly recommended | Generated (offline HTML proof ready) | Self-contained HTML proof with all 12 plots and their world basemap. |
+| [`notebook.ipynb`](notebook.ipynb) | Mandatory | Completed & executed (self-contained) | Complete KDD notebook (header with all 6 team members + GitHub link, modular documented functions, Markdown explanations for every indicator, single `if __name__ == "__main__":` block). |
+| [`slides.pdf`](slides.pdf) | Mandatory | Ready (rebuild PDF from `slides.tex` after updating member names) | 10-minute group presentation slide deck exported to PDF (see [`projet/slides/README.md`](../projet/slides/README.md)). |
+| [`dashboard.html`](dashboard.html) | Strongly recommended | Generated (offline HTML proof ready) | Self-contained HTML proof with all 12 plots and their world basemap. |
 
 ---
 
 ## Pre-Submission Verification Checklist
 
-- [ ] `Laurent_notebook.ipynb` runs top-to-bottom without errors when local data files are in `projet/data/`.
-- [ ] Every function has `# Function ...`, `# Input: ...`, `# Output: ...` comments.
-- [ ] Every dropped column and cleaning decision is justified in Markdown.
-- [ ] Every indicator (Queries 1 to 4 + Tourism Bonus) has a dedicated Markdown explanation cell (calculation, meaning, interpretation).
-- [ ] The Dash dashboard displays all 4 team member names (`Maxime Laurent`, `Louis Le Forestier`, `Baptiste Noailhac`, `Romain Thepaut`) and both dataset names.
-- [ ] `Laurent_dashboard.html` opens cleanly offline with all interactive Plotly charts.
-- [ ] GitHub repository `https://github.com/groupe-dia3-ml/programming-for-data-science` is set to **Public** with an up-to-date `README.md`.
-- [ ] All 4 members have tested running the notebook locally for the random live demo selection.
+- [ ] `notebook.ipynb` runs top-to-bottom without errors (uses local data files in `projet/data/` or auto-downloads if absent).
+- [ ] Every function has `# Function ...`, `# Input: ...`, `# Output: ...` comments (`-2 pts` penalty if missing).
+- [ ] Every dropped column and cleaning decision is justified in Markdown (`-2 pts` penalty if missing).
+- [ ] Every indicator (Queries 1 to 4 + Tourism Bonus) has a dedicated Markdown explanation cell (calculation, meaning, interpretation; `-2 pts` penalty if missing).
+- [ ] The Dash dashboard displays all 6 team member names (`Maxime Laurent`, `Louis Le Forestier`, `Baptiste Noailhac`, `Romain Thepaut`, `Fabien Ramel`, `Rayan Iguercha`) and both dataset names.
+- [ ] `dashboard.html` opens cleanly offline with all interactive Plotly charts.
+- [ ] GitHub repository `https://github.com/groupe-dia3-ml/programming-for-data-science` is set to **Public** (`[1 pt]`) with an up-to-date `README.md`.
+- [ ] All 6 team members are prepared and present for the **10-minute group presentation + Q&A** (`-8 pts` penalty if any member is absent).

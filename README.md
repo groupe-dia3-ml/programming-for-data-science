@@ -32,10 +32,12 @@ The objective is to apply the complete **Knowledge Discovery in Databases (KDD)*
 
 | Member | GitHub | Primary Responsibilities |
 | --- | --- | --- |
-| **Maxime Laurent** (Team Leader) | [@maximelrnt](https://github.com/maximelrnt) | Deliverable coordination (`Laurent_*`), EDA, data cleaning, country normalization, and final notebook assembly |
+| **Maxime Laurent** | [@maximelrnt](https://github.com/maximelrnt) | EDA, data cleaning, country normalization, and deliverable coordination |
 | **Louis Le Forestier** | [@louislefo](https://github.com/louislefo) | Repository architecture, Query 4 (Spatial Clustering with `GeoPandas` / `OPTICS` / `K-Means`), and Dash dashboard |
 | **Baptiste Noailhac** | [@BaptisteNoai](https://github.com/BaptisteNoai) | Query 1 (Grouping & fatality rates) and Query 2 (Frequent Pattern Mining with `mlxtend` / `Apriori`) |
-| **Romain Thepaut** | [@RomThpt](https://github.com/RomThpt) | Query 3 (Temporal seasonality & `Prophet` forecasting) and External Bonus Dataset (World Bank Tourism risk rate) |
+| **Romain Thepaut** | [@RomThpt](https://github.com/RomThpt) | Query 3 (Temporal seasonality & `Prophet` forecasting), External Bonus Dataset, and Beamer slides |
+| **Fabien Ramel** | [@Fevoxs](https://github.com/Fevoxs) | Data analysis support, verification, and 10-minute group oral defense (`fabien.ramel@edu.devinci.fr`) |
+| **Rayan Iguercha** | [@diguercha-ops](https://github.com/diguercha-ops) | Data analysis support, verification, and 10-minute group oral defense (`rayan.iguercha@edu.devinci.fr`) |
 
 ---
 
@@ -56,7 +58,7 @@ flowchart LR
     Q3 --> DASH
     Q4 --> DASH
     Q5 --> DASH
-    DASH --> RENDU["rendu/<br/>Laurent_notebook.ipynb<br/>Laurent_dashboard.html<br/>Laurent_slides.pdf"]
+    DASH --> RENDU["rendu/<br/>notebook.ipynb<br/>dashboard.html<br/>slides.pdf"]
 ```
 
 ---
@@ -94,11 +96,15 @@ programming-for-data-science/
 │   │   ├── indicators.py
 │   │   └── dashboard.py
 │   └── slides/
-│       └── README.md                       # 5-minute oral defense structure
+│       ├── README.md                       # 10-minute group oral defense structure
+│       ├── slides.tex                      # Editable Beamer presentation source
+│       └── assets/                         # Cover image and vector coastal map
 │
 └── rendu/                                  # Final DVLC submission deliverables
     ├── README.md                           # Naming conventions & pre-submission checklist
-    └── Laurent_notebook.ipynb              # 100% self-contained master deliverable notebook (all functions + __main__, executed)
+    ├── notebook.ipynb                      # 100% self-contained master deliverable notebook (all functions + __main__, executed)
+    ├── dashboard.html                      # Standalone offline HTML proof of the Plotly Dash dashboard
+    └── slides.pdf                          # 6-slide presentation exported to PDF
 ```
 
 ---
@@ -108,4 +114,4 @@ programming-for-data-science/
 1. **Set up your Python environment:** Follow [`REQUIREMENTS.md`](REQUIREMENTS.md) (`python -m venv .venv` then `pip install -r requirements.txt`).
 2. **Download the two datasets locally:** Follow [`doc/DATA_SETUP.md`](doc/DATA_SETUP.md) to populate `projet/data/`.
 3. **Check your assigned tasks & specs:** Read [`doc/TEAM_WORKFLOW.md`](doc/TEAM_WORKFLOW.md) and [`doc/INDICATORS_SPEC.md`](doc/INDICATORS_SPEC.md).
-4. **Work in your assigned `projet/notebooks/*.ipynb` and `projet/src/*.py`**, then consolidate into [`rendu/Laurent_notebook.ipynb`](rendu/Laurent_notebook.ipynb).
+4. **Work in your assigned `projet/notebooks/*.ipynb` and `projet/src/*.py`**, then consolidate into [`rendu/notebook.ipynb`](rendu/notebook.ipynb).

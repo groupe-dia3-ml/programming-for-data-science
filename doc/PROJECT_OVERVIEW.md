@@ -34,9 +34,9 @@ The primary dataset satisfies all three mandatory multidimensional axes:
 | - Query 2 | Frequent pattern mining (`mlxtend` `apriori` + `association_rules`). | *2 pts* | `02_grouping_and_apriori.ipynb` |
 | - Query 3 | Temporal analysis and multi-year forecasting (`Prophet`). | *2 pts* | `03_temporal_forecasting.ipynb` |
 | - Query 4 | Spatial analysis and hotspot clustering (`GeoPandas` + `OPTICS`/`K-Means`). | *2 pts* | `04_spatial_clustering.ipynb` |
-| **3. Visualization Dashboard** | Python **Dash** dashboard organizing all four queries + tourism bonus, clearly displaying all 4 team member names and dataset names. | **2 pts** | `src/dashboard.py` + `rendu/Laurent_dashboard.html` |
+| **3. Visualization Dashboard** | Python **Dash** dashboard organizing all four queries + tourism bonus, clearly displaying all 6 team member names and dataset names. | **2 pts** | `src/dashboard.py` + `rendu/dashboard.html` |
 | **4. GitHub Repository** | Public GitHub repository with clean modular code, informative `README.md`, and documentation. | **1 pt** | Root repo + `doc/` |
-| **5. Presentation & Demo** | 5-minute slide presentation (`Laurent_slides.pdf`), live notebook demo (presenter picked right before start), and Q&A. | **8 pts** | `rendu/Laurent_slides.pdf` + `rendu/Laurent_notebook.ipynb` |
+| **5. Presentation & Demo** | 10-minute group slide presentation (`slides.pdf`) + live notebook demo + Q&A (whole team presenting together, no random draw). | **8 pts** | `rendu/slides.pdf` + `rendu/notebook.ipynb` |
 | **6. External Dataset (Bonus)** | Enrich and interpret primary findings with World Bank International Tourism (`ST.INT.ARVL`, 1995-2020). | **+1 pt** | `05_tourism_bonus.ipynb` |
 
 ---
@@ -48,5 +48,5 @@ Before submitting to DVLC, verify every single rule below:
 - [ ] **[-2 pts penalty]** All code is organized into functions (`def name_function():`) called from `if __name__ == "__main__":` and hosted in a **public** GitHub repository with a clear `README.md`.
 - [ ] **[-2 pts penalty]** Every single function includes comments documenting its purpose, `# Input:`, and `# Output:`, and every dropped column or filtering decision is justified in Markdown/comments.
 - [ ] **[-2 pts penalty]** Every single indicator has a dedicated human-readable **Markdown cell** explaining how it is calculated, what it represents, and how to interpret it.
-- [ ] **[-2 pts penalty]** The Dash dashboard runs without errors AND static proof (`rendu/Laurent_dashboard.html` or `.pdf`) is included in the submission.
-- [ ] **[-8 pts penalty]** All 4 team members are physically present during the presentation and capable of running the live demo and answering Q&A.
+- [ ] **[-2 pts penalty]** The Dash dashboard runs without errors AND static proof (`rendu/dashboard.html` or `.pdf`) is included in the submission.
+- [ ] **[-8 pts penalty]** All 6 team members are physically present during the 10-minute group presentation and capable of answering Q&A.
