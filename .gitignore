@@ -57,3 +57,10 @@ desktop.ini
 # Logs and temporary outputs
 *.log
 *.tmp
+
+# AI assistant instruction files
+gemini.md
+GEMINI.md
+AGENTS.md
+agents.md
+CLAUDE.md
